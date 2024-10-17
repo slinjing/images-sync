@@ -8,7 +8,7 @@ do
     echo "镜像名称：$image_name"
 
     # 获取镜像版本：
-    if grep -q ":" "$image"; then
+    if [[ $image == *:* ]]; then
         image_tag=$(echo "$image" | cut -d':' -f2)
     else
         image_tag=latest
