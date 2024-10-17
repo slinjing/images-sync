@@ -1,10 +1,13 @@
-while IFS= read -r image 
-do
+while IFS= read -r image; do
+
     [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
 
-    # 获取镜像名称：
-    image_name=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
-    # image_name=$(echo $image | cut -d':' -f1)
+    ##### 构造新镜像名称 #####
+    # 镜像名称：
+    image_name=$(echo $image | cut -d ":" -f 1)
+    if [[ $image_name == */* ]]; then
+        image_name=$(echo "$image" | cut -d'/' -f1)
+    fi
     echo "镜像名称：$image_name"
 
     # 获取镜像版本：
