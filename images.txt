@@ -1,2 +1,2 @@
-k8s.io/kube-apiserver:v1.27.4 
-
+# k8s.gcr.io/kube-apiserver:v1.27.4 
+kube-apiserver:v1.27.4
