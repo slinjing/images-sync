@@ -3,7 +3,7 @@ name: Docker Image Sync to Aliyun Registry
 on:
   push:
     paths:
-      - 'images.txt'
+      - 'images.yaml'
 
 env:
   REGISTRY: ${{ secrets.REGISTRY }}
