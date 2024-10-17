@@ -1,0 +1,16 @@
+K8SVERSION=1.27.4
+DOCKER_HUBUSERURL=registry.cn-chengdu.aliyuncs.com
+kubeadm config images list --kubernetes-version=${K8SVERSION} 2>/dev/null > K8sv1.27.4.txt
+for i in `cat K8sv1.27.4.txt`;do
+  # echo skopeo copy --all docker://${i} docker://${DOCKER_HUBUSERURL}/${REGISTRY_USER}/${i##*/}
+   echo skopeo copy --all docker://${i} docker://registry.cn-chengdu.aliyuncs.com/shulinjing/${i##*/}
+done
+
+# 执行结果:
+# skopeo copy --all docker://registry.k8s.io/kube-apiserver:v1.27.4 docker://docker.io/weiyigeek/kube-apiserver:v1.27.4
+# skopeo copy --all docker://registry.k8s.io/kube-controller-manager:v1.27.4 docker://docker.io/weiyigeek/kube-controller-manager:v1.27.4
+# skopeo copy --all docker://registry.k8s.io/kube-scheduler:v1.27.4 docker://docker.io/weiyigeek/kube-scheduler:v1.27.4
+# skopeo copy --all docker://registry.k8s.io/kube-proxy:v1.27.4 docker://docker.io/weiyigeek/kube-proxy:v1.27.4
+# skopeo copy --all docker://registry.k8s.io/pause:3.9 docker://docker.io/weiyigeek/pause:3.9
+# skopeo copy --all docker://registry.k8s.io/etcd:3.5.7-0 docker://docker.io/weiyigeek/etcd:3.5.7-0
+# skopeo copy --all docker://registry.k8s.io/coredns/coredns:v1.10.1 docker://docker.io/weiyigeek/coredns:v1.10.1
