@@ -1,31 +1,29 @@
-name: Docker Image Sync to Aliyun Registry
-
+name: Docker Image CI
+ 
 on:
   push:
+    branches: [ main ]
     paths:
-      - 'images.yaml'
-
-env:
-  REGISTRY: ${{ secrets.REGISTRY }}
-  NAMESPACE: ${{ secrets.REGISTRY_USER }}
-
+    - 'images.yaml'
+ 
 jobs:
-  sync-images:
+  build-and-push-image:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Log in to Aliyun registry
-        uses: docker/login-action@v1
-        with:
-          mode: login
-          registry: ${{ secrets.REGISTRY }}  # Aliyun镜像仓库地址
-          username: ${{ secrets.REGISTRY_USER }}  # Aliyun镜像仓库username
-          password: ${{ secrets.REGISTRY_PASSWORD }} # Aliyun镜像仓库password
-
-      - name: Read and Push Images 
-        run: chmod +x ./app && ./app 
+    - name: Checkout code
+      uses: actions/checkout@v2
+ 
+    - name: Log in to Aliyun Container Registry
+      uses: docker/login-action@v1
+      with:
+        mode: login
+        registry: ${{ secrets.REGISTRY }}  
+        username: ${{ secrets.REGISTRY_USER }} 
+        password: ${{ secrets.REGISTRY_PASSWORD }} 
+ 
+    - name: Push Docker image
+      run: chmod +x ./app && ./app 
+      env:
+        REGISTRY: ${{ secrets.REGISTRY }}
+        NAMESPACE: ${{ secrets.REGISTRY_USER }}
