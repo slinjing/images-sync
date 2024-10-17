@@ -1,7 +1,7 @@
-kube-apiserver:v1.27.4 
-kube-controller-manager:v1.27.4 
-kube-scheduler:v1.27.4 
-kube-proxy:v1.27.4 
-pause:3.9 
-etcd:3.5.7-0 
-coredns/coredns:v1.10.1 
+k8s.gcr.io/kube-apiserver:v1.27.4 
+k8s.gcr.io/kube-controller-manager:v1.27.4 
+k8s.gcr.io/kube-scheduler:v1.27.4 
+k8s.gcr.io/kube-proxy:v1.27.4 
+k8s.gcr.io/pause:3.9 
+k8s.gcr.io/etcd:3.5.7-0 
+k8s.gcr.io/coredns/coredns:v1.10.1
