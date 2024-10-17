@@ -13,21 +13,21 @@ do
     else
         image_tag=latest
     fi
-    echo "镜像名称：$image_tag"
+    echo "镜像版本：$image_tag"
+    image_new=$image_name:$image_tag
 
-
-    echo "正在处理镜像: $image_name:$image_tag"
-    echo "拉取镜像: $image_name:$image_tag"
+    echo "正在处理镜像: $image_new"
+    echo "拉取镜像: $image_new"
     docker pull $image
     if [ $? -eq 0 ]; then
         target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
         
-        docker tag $image $target_image
+        docker tag $image_new $target_image
         if [ $? -eq 0 ]; then
-            echo "正在推送：$image 到 $target_image"
+            echo "正在推送：$image_new 到 $target_image"
             docker push $target_image
             if [ $? -eq 0 ]; then
-                echo "镜像 $image 同步完成，已推送到 $target_image"
+                echo "镜像 $image_new 同步完成，已推送到 $target_image"
             else
                 echo "镜像Push失败，退出状态码为 $?"
                 exit 1
