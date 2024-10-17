@@ -1,14 +1,14 @@
 # gitlab
-gitlab/gitlab-ce:latest
+# gitlab/gitlab-ce:latest
 
 # jenkins
-jenkins/jenkins:2.414.3-lts
+# jenkins/jenkins:2.414.3-lts
 
 # sonarqube
-sonarqube:lts-community
+# sonarqube:lts-community
 
 # ingress-controller
-ingress-controller:latest
+registry.k8s.io/ingress-nginx/controller
 
 # kafka
 bitnami/kafka:latest
