@@ -20,9 +20,9 @@
             
             # 构建目标镜像名称（确保使用三级目录结构）
             if [ -z "$org" ]; then
-               target_image="${ REGISTRY }/${ NAMESPACE }/${repo}:${tag}"
+               target_image="${REGISTRY}/${NAMESPACE}/${repo}:${tag}"
             else
-               target_image="${ REGISTRY }/${ NAMESPACE }/${org}-${repo}:${tag}"
+               target_image="${REGISTRY}/${NAMESPACE}/${org}-${repo}:${tag}"
             fi
             
             # 标记镜像
