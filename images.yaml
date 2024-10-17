@@ -21,12 +21,12 @@
 # prometheus
 # prom/prometheus:latest
 # prom/alertmanager:latest
-prom/mysqld-exporter:latest
-prom/blackbox-exporter:latest
-prom/node-exporter:latest
-prom/influxdb-exporter:latest
-prom/snmp-exporter:latest
-prom/haproxy-exporter:latest
+# prom/mysqld-exporter:latest
+# prom/blackbox-exporter:latest
+# prom/node-exporter:latest
+# prom/influxdb-exporter:latest
+# prom/snmp-exporter:latest
+# prom/haproxy-exporter:latest
 
 
 # k8s v1.27.4 
