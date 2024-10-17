@@ -18,6 +18,7 @@ do
     image_new=$image_name:$image_tag
 
     # 获取镜像ID：
+    echo "$(docker images | grep $image | awk '{print $3}')"
     image_id=$(docker images | grep $image | awk '{print $3}')
     echo "镜像ID：$image_id"
 
