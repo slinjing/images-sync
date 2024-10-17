@@ -1,6 +1,4 @@
-kube-apiserver:v1.27.4 
-kube-controller-manager:v1.27.4 
-
+redis
 
 
 
