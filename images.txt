@@ -1,2 +1,1 @@
-redis
 kube-apiserver:v1.27.4 
