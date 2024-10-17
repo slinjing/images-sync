@@ -7,8 +7,6 @@ while IFS= read -r image; do
     image_name=$(echo $image | cut -d ":" -f 1)
     if [[ $image_name == */* ]]; then
         image_name=${image_name##*/}
-    else
-        image_name=image_name
     fi
     echo "镜像名称：$image_name"
 
