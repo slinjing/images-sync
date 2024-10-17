@@ -5,6 +5,10 @@ on:
     paths:
       - 'images.txt'
 
+env:
+  REGISTRY: ${{ secrets.REGISTRY }}
+  NAMESPACE: ${{ secrets.REGISTRY_USER }}
+
 jobs:
   sync-images:
     runs-on: ubuntu-latest
