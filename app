@@ -36,4 +36,4 @@ while IFS= read -r image || [[ -n "$image" ]]; do
     echo "镜像拉取失败，退出状态码为 $?"
     exit 1
   fi
-done < images.txt
+done < images.yaml
