@@ -27,5 +27,5 @@ jobs:
           username: ${{ secrets.REGISTRY_USER }}  # Aliyun镜像仓库username
           password: ${{ secrets.REGISTRY_PASSWORD }} # Aliyun镜像仓库password
 
-      - name: 读取镜像列表并同步
+      - name: Read and Push Images 
         run: chmod +x ./app && ./app 
