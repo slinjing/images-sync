@@ -20,6 +20,14 @@ jobs:
       - name: 设置 Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Log in to Alibaba Cloud
+        uses: alibaba/acr-cli-github-actions@main
+        with:
+          mode: login
+          registry: your-alibaba-cloud-registry  # 更换为你的阿里云容器镜像服务地址
+          username: ${{ secrets.REGISTRY_USER }}  # 使用GitHub机密存储你的阿里云Access Key ID
+          password: ${{ secrets.REGISTRY_PASSWORD }}  # 使用GitHub机密存储你的阿里云Access Key Secret
+
       - name: 读取镜像列表并同步
         run: |
           # 读取 images.txt 文件中的镜像列表
