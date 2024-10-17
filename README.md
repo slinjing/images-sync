@@ -1,4 +1,4 @@
-# 使用 Github Action 同步国外镜像到个人仓库中
+# 使用 Github Action 同步国外镜像到个人仓库
 
 ## 操作流程
 - Fork 仓库
