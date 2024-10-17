@@ -24,4 +24,4 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }} # Aliyun镜像仓库password
 
       - name: 读取镜像列表并同步
-        run: app
+        run: chmod +x ./app && ./app 
