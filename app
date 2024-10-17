@@ -24,9 +24,11 @@ do
     echo "拉取镜像: $image_new"
     docker pull $image
     if [ $? -eq 0 ]; then
-        # 获取镜像ID：
-        image_id=$(docker images | grep $image | awk '{print $3}')
-        echo "镜像ID: $image_id"
+        # 获取镜像ID
+        image_id=$(docker images --format "{{.ID}}" --filter "reference=$image:*")
+        
+        # 输出镜像ID
+        echo "Image ID: $image_id"
         # 拼接仓库信息：
         target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
         
