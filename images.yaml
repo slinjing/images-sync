@@ -8,7 +8,7 @@
 # sonarqube:lts-community
 
 # ingress-controller
-registry.k8s.io/ingress-nginx/controller:v1.12.0-beta
+registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
 
 # kafka
 bitnami/kafka:latest
