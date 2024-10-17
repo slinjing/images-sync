@@ -2,28 +2,29 @@ while IFS= read -r image; do
 
     [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
 
-    ##### 构造新镜像名称 #####
+######################### 构造新镜像名称 #########################
     # 镜像名称：
     image_name=$(echo $image | cut -d ":" -f 1)
     if [[ $image_name == */* ]]; then
         image_name=${image_name##*/}
+    else
+        image_name=image_name
     fi
     echo "镜像名称：$image_name"
 
     # 获取镜像版本：
     if [[ $image == *:* ]]; then
         image_tag=$(echo "$image" | cut -d':' -f2)
-        # image_tag=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
     else
         image_tag=latest
     fi
-
     echo "镜像版本：$image_tag"
+
+    # 新镜像名称：
     image_new=$image_name:$image_tag
+################################################################# 
 
-
-
-
+    # 处理镜像：
     echo "正在处理镜像: $image_new"
     echo "拉取镜像: $image_new"
     docker pull $image
@@ -32,7 +33,7 @@ while IFS= read -r image; do
         last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
         echo "镜像: $last_image 拉取完成"
         # 拼接仓库信息：
-        target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
+        target_image="${REGISTRY}/${NAMESPACE}/${image_new}"
         
         docker tag $last_image $target_image
         if [ $? -eq 0 ]; then
