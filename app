@@ -2,7 +2,7 @@ while IFS= read -r image; do
 
     [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
 
-######################### 构造新镜像名称 #########################
+
     # 镜像名称:
     image_name=$(echo $image | cut -d ":" -f 1)
     if [[ $image_name == */* ]]; then
@@ -20,7 +20,7 @@ while IFS= read -r image; do
 
     # 新镜像名称:
     image_new=$image_name:$image_tag
-################################################################# 
+
 
     # 处理镜像:
     echo "正在处理镜像: $image_new"
