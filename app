@@ -9,7 +9,8 @@ do
 
     # 获取镜像版本：
     if [[ $image == *:* ]]; then
-        image_tag=$(echo "$image" | cut -d':' -f2)
+        # image_tag=$(echo "$image" | cut -d':' -f2)
+        image_tag=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
     else
         image_tag=latest
     fi
@@ -26,7 +27,7 @@ do
     if [ $? -eq 0 ]; then
         # 获取镜信息：
         last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
-        echo "镜像名称和版本: $last_image"
+        echo "镜像: $last_image 拉取完成"
         # 拼接仓库信息：
         target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
         
