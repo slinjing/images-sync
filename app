@@ -33,6 +33,7 @@ while IFS= read -r image || [[ -n "$image" ]]; do
                       
     echo "镜像 $image 同步完成，已推送到 $target_image"
   else
-  echo "镜像拉取失败，退出状态码为 $?"
+    echo "镜像拉取失败，退出状态码为 $?"
+    exit 1
   fi
 done < images.txt
