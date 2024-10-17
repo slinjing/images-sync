@@ -1,19 +1,22 @@
 while IFS= read -r image 
 do
     [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
-    echo "读取到的行：$image "
 
     # 获取镜像名称：
     image_name=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
     # image_name=$(echo $image | cut -d':' -f1)
-    echo $image_name
+    echo "镜像名称：$image_name"
 
     # 获取镜像版本：
-    image_tag=$(echo "$image" | cut -d':' -f2)
-    echo $image_tag
+    if grep -q ":" "$image"; then
+        image_tag=$(echo "$image" | cut -d':' -f2)
+    else
+        image_tag=latest
+    fi
+    echo "镜像名称：$image_tag"
 
 
-    echo "处理镜像: $image"
+    echo "正在处理镜像: $image"
     docker pull $image
     if [ $? -eq 0 ]; then
         target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
