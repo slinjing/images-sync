@@ -20,17 +20,15 @@
             
             # 构建目标镜像名称（确保使用三级目录结构）
             if [ -z "$org" ]; then
-               #target_image="${REGISTRY}/${NAMESPACE}/${repo}:${tag}"
-               target_image="${{secrets.REGISTRY}}/${{secrets.REGISTRY_USER}}/${repo}:${tag}"
+               target_image="${REGISTRY}/${NAMESPACE}/${repo}:${tag}"
             else
-               #target_image="${REGISTRY}/${NAMESPACE}/${org}-${repo}:${tag}"
-               target_image="${{secrets.REGISTRY}}/${{secrets.REGISTRY_USER}}/${org}-${repo}:${tag}"
+               target_image="${REGISTRY}/${NAMESPACE}/${org}-${repo}:${tag}"
             fi
             
             # 标记镜像
             docker tag $image $target_image
             
-            # 推送镜像到腾讯云 Coding
+            # 推送镜像到镜像仓库
             docker push $target_image
             
             echo "镜像 $image 同步完成，已推送到 $target_image"
