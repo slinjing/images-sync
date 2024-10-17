@@ -28,7 +28,7 @@ do
     if [ $? -eq 0 ]; then
         target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
         
-        docker tag $image_new $target_image
+        docker tag $image_id $target_image
         if [ $? -eq 0 ]; then
             echo "正在推送：$image_new 到 $target_image"
             docker push $target_image
