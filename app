@@ -13,8 +13,14 @@ do
     else
         image_tag=latest
     fi
+
     echo "镜像版本：$image_tag"
     image_new=$image_name:$image_tag
+
+    # 获取镜像ID：
+    image_id=$(docker images | grep $image | awk '{print $3}')
+    echo "镜像ID：$image_id"
+
 
     echo "正在处理镜像: $image_new"
     echo "拉取镜像: $image_new"
