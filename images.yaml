@@ -8,19 +8,19 @@
 # sonarqube:lts-community
 
 # ingress-controller
-registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
+# registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
+
 
 # kafka
-bitnami/kafka:latest
+# bitnami/kafka:latest
 
 # redis
-redis:latest
-redis:6.2.4
+# redis:latest
+# redis:6.2.4
 
 # prometheus
-prom/prometheus:latest
-prom/alertmanager:latest
-prom/nodexepert:latest
+# prom/prometheus:latest
+# prom/alertmanager:latest
 prom/mysqld-exporter:latest
 prom/blackbox-exporter:latest
 prom/node-exporter:latest
