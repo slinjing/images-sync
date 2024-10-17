@@ -9,8 +9,8 @@ do
 
     # 获取镜像版本：
     if [[ $image == *:* ]]; then
-        # image_tag=$(echo "$image" | cut -d':' -f2)
-        image_tag=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
+        image_tag=$(echo "$image" | cut -d':' -f2)
+        # image_tag=$(echo "$image" | sed 's/.*\/\([^:\/]*\):.*$/\1/')
     else
         image_tag=latest
     fi
