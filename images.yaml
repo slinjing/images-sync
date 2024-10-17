@@ -1,4 +1,4 @@
-############################## k8s v1.27.4 ##############################
+# k8s v1.27.4 
 # registry.k8s.io/kube-apiserver:v1.27.4 
 # registry.k8s.io/kube-apiserver:v1.27.4 
 # registry.k8s.io/kube-controller-manager:v1.27.4 
@@ -7,11 +7,23 @@
 # registry.k8s.io/pause:3.9 
 # registry.k8s.io/etcd:3.5.7-0 
 # registry.k8s.io/coredns/coredns:v1.10.1
-#########################################################################
 
 
-############################### Grafana #################################
+
+# zabbix ubuntu-7.0-latest
+zabbix/zabbix-server-mysql:ubuntu-7.0-latest
+zabbix/zabbix-server-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-web-apache-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-web-apache-mysql:ubuntu-7.0-latest
+zabbix/zabbix-web-nginx-mysql:ubuntu-7.0-latest
+zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-agent:ubuntu-7.0-latest
+zabbix/zabbix-agent2:ubuntu-7.0-latest
+zabbix/zabbix-java-gateway:ubuntu-7.0-latest
+
+
+
+# Grafana 
 # grafana/grafana:11.2.0
 # grafana/grafana:10.4.5
 # grafana/grafana:latest
-#########################################################################
