@@ -1,35 +1,37 @@
-# gitlab
+neo4j:latest
+
+
 # gitlab/gitlab-ce:latest
 
-# jenkins
-jenkins/jenkins:2.414.3-lts
 
-# sonarqube
-sonarqube:lts-community
+# jenkins/jenkins:2.414.3-lts
 
-# ingress-controller
+
+# sonarqube:lts-community
+
+
 # registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
 
 
-# kafka
+
 # bitnami/kafka:latest
 
-# redis
-redis:latest
-redis:6.2.4
 
-# prometheus
-prom/prometheus:latest
-prom/alertmanager:latest
-prom/mysqld-exporter:latest
-prom/blackbox-exporter:latest
-prom/node-exporter:latest
-prom/influxdb-exporter:latest
-prom/snmp-exporter:latest
-prom/haproxy-exporter:latest
+# redis:latest
+# redis:6.2.4
 
 
-# k8s v1.27.4 
+# prom/prometheus:latest
+# prom/alertmanager:latest
+# prom/mysqld-exporter:latest
+# prom/blackbox-exporter:latest
+# prom/node-exporter:latest
+# prom/influxdb-exporter:latest
+# prom/snmp-exporter:latest
+# prom/haproxy-exporter:latest
+
+
+
 # registry.k8s.io/kube-apiserver:v1.27.4 
 # registry.k8s.io/kube-apiserver:v1.27.4 
 # registry.k8s.io/kube-controller-manager:v1.27.4 
@@ -40,7 +42,7 @@ prom/haproxy-exporter:latest
 # registry.k8s.io/coredns/coredns:v1.10.1
 
 
-# zabbix ubuntu-7.0-latest、ubuntu-6.0-latest、ubuntu-5.0-latest
+
 # zabbix/zabbix-server-mysql:ubuntu-7.0-latest
 # zabbix/zabbix-server-pgsql:ubuntu-7.0-latest
 # zabbix/zabbix-web-apache-pgsql:ubuntu-7.0-latest
@@ -72,7 +74,7 @@ prom/haproxy-exporter:latest
 # zabbix/zabbix-java-gateway:ubuntu-5.0-latest
 
 
-# Grafana 
+
 # grafana/grafana:11.2.0
 # grafana/grafana:10.4.5
-grafana/grafana:latest
+# grafana/grafana:latest
