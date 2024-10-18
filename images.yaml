@@ -1,6 +1,9 @@
+mysql:8.0
+mysql:5.7
+
 # python:latest
-python:3.13-slim-bullseye
-node:22.10.0-alpine3.20
+# python:3.13-slim-bullseye
+# node:22.10.0-alpine3.20
 
 # openjdk:24-slim-bullseye
 # alpine:latest
@@ -46,6 +49,15 @@ node:22.10.0-alpine3.20
 # registry.k8s.io/etcd:3.5.7-0 
 # registry.k8s.io/coredns/coredns:v1.10.1
 
+zabbix/zabbix-server-mysql:latest
+zabbix/zabbix-server-pgsql:latest
+zabbix/zabbix-web-apache-pgsql:latest
+zabbix/zabbix-web-apache-mysql:latest
+zabbix/zabbix-web-nginx-mysql:latest
+zabbix/zabbix-web-nginx-pgsql:latest
+zabbix/zabbix-agent:latest
+zabbix/zabbix-agent2:latest
+zabbix/zabbix-java-gateway:latest
 
 
 # zabbix/zabbix-server-mysql:ubuntu-7.0-latest
@@ -77,7 +89,6 @@ node:22.10.0-alpine3.20
 # zabbix/zabbix-agent:ubuntu-5.0-latest
 # zabbix/zabbix-agent2:ubuntu-5.0-latest
 # zabbix/zabbix-java-gateway:ubuntu-5.0-latest
-
 
 
 # grafana/grafana:11.2.0
