@@ -30,7 +30,7 @@ while IFS= read -r image; do
         echo "镜像: $image 拉取完成"
         # 获取镜ID:
         # last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
-        image_id=$(docker images | grep $image | awk '{print $3}')
+        image_id=$(docker images | grep $image_name | awk '{print $3}')
         echo "镜像ID: $image_id"
 
         
