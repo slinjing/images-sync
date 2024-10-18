@@ -48,5 +48,5 @@ while IFS= read -r image; do
         echo "镜像: $image_name:$image_tag Pull失败，退出状态码为 $?"
         exit 1
     fi
-    cat succeeded.log
+
 done < images.yaml
