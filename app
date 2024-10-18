@@ -29,11 +29,10 @@ while IFS= read -r image; do
     if [ $? -eq 0 ]; then
         # 获取镜信息:
         last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
-        echo "镜像: $image_new 拉取完成"
+        echo "镜像: $last_image 拉取完成"
         # 拼接仓库信息:
         target_image="${REGISTRY}/${NAMESPACE}/${image_new}"
         
-        echo "正在 Tag 镜像: $last_image"
         docker tag $last_image $target_image
         if [ $? -eq 0 ]; then
             echo "正在推送: $image_new 到 $target_image"
