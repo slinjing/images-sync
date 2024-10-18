@@ -16,7 +16,7 @@ bitnami/kafka:latest
 
 # redis
 redis:latest
-# redis:6.2.4
+redis:6.2.4
 
 # prometheus
 prom/prometheus:latest
