@@ -12,21 +12,21 @@ gitlab/gitlab-ce:latest
 
 
 # kafka
-# bitnami/kafka:latest
+bitnami/kafka:latest
 
 # redis
-# redis:latest
+redis:latest
 # redis:6.2.4
 
 # prometheus
-# prom/prometheus:latest
-# prom/alertmanager:latest
-# prom/mysqld-exporter:latest
-# prom/blackbox-exporter:latest
-# prom/node-exporter:latest
-# prom/influxdb-exporter:latest
-# prom/snmp-exporter:latest
-# prom/haproxy-exporter:latest
+prom/prometheus:latest
+prom/alertmanager:latest
+prom/mysqld-exporter:latest
+prom/blackbox-exporter:latest
+prom/node-exporter:latest
+prom/influxdb-exporter:latest
+prom/snmp-exporter:latest
+prom/haproxy-exporter:latest
 
 
 # k8s v1.27.4 
@@ -75,5 +75,5 @@ gitlab/gitlab-ce:latest
 # Grafana 
 # grafana/grafana:11.2.0
 # grafana/grafana:10.4.5
-# grafana/grafana:latest
+grafana/grafana:latest
 
