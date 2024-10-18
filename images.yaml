@@ -2,10 +2,10 @@
 # gitlab/gitlab-ce:latest
 
 # jenkins
-# jenkins/jenkins:2.414.3-lts
+jenkins/jenkins:2.414.3-lts
 
 # sonarqube
-# sonarqube:lts-community
+sonarqube:lts-community
 
 # ingress-controller
 # registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
