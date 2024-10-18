@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }} 
  
     - name: Push Image
-      run: chmod +x ./app && ./app 
+      run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_USER }}
