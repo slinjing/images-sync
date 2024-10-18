@@ -18,37 +18,38 @@ while IFS= read -r image; do
     fi
     echo "镜像版本: $image_tag"
 
-    # 新镜像名称:
-    image_new=$image_name:$image_tag
 
+    # 拼接仓库信息:
+    target_image="${REGISTRY}/${NAMESPACE}/${image_name}:$image_tag"
 
     # 处理镜像:
     echo "正在处理镜像: $image_new"
     echo "拉取镜像: $image_new"
     docker pull $image
     if [ $? -eq 0 ]; then
-        # 获取镜信息:
-        last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
         echo "镜像: $image 拉取完成"
-        # 拼接仓库信息:
-        target_image="${REGISTRY}/${NAMESPACE}/${image_new}"
+        # 获取镜ID:
+        # last_image=$(docker images --format '{{.Repository}}:{{.Tag}}' -q | tail -1)
+        image_id=$(docker images | grep $image | awk '{print $3}')
+        echo "镜像ID: $image_id"
+
         
-        docker tag $last_image $target_image
+        docker tag $image_id $target_image
         if [ $? -eq 0 ]; then
-            echo "正在推送: $image_new 到 $target_image"
+            echo "正在推送: $image_name:$image_tag 到 $target_image"
             docker push $target_image
             if [ $? -eq 0 ]; then
-                echo "镜像: $image_new 同步完成，已推送到 $target_image"
+                echo "镜像: $image_name:$image_tag 同步完成，已推送到 $target_image"
             else
-                echo "镜像: $image_new Push失败，退出状态码为 $?"
+                echo "镜像: $image_name:$image_tag Push失败，退出状态码为 $?"
                 exit 1
             fi                
         else
-            echo "镜像: $image_new Tag失败，退出状态码为 $?"
+            echo "镜像: $image_name:$image_tag Tag失败，退出状态码为 $?"
             exit 1
         fi
     else
-        echo "镜像: $image_new Pull失败，退出状态码为 $?"
+        echo "镜像: $image_name:$image_tag Pull失败，退出状态码为 $?"
         exit 1
     fi
 
