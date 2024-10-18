@@ -19,7 +19,7 @@ while IFS= read -r image; do
     echo "镜像版本: $image_tag"
 
 
-    # 拼接仓库信息:
+    # 拼接镜像信息:
     target_image="${REGISTRY}/${NAMESPACE}/${image_name}:$image_tag"
 
     # 处理镜像:
