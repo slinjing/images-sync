@@ -1,11 +1,11 @@
-quay.io/prometheus/prometheus:v2.54.1
-quay.io/prometheus/alertmanager:v0.27.0
-quay.io/prometheus/node-exporter:v1.8.2
-quay.io/prometheus/blackbox-exporter:v0.25.0
-ghcr.io/jimmidyson/configmap-reload:v0.14.0
-quay.io/brancz/kube-rbac-proxy:v0.18.1
-registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0
-grafana/grafana:11.2.1
+# quay.io/prometheus/prometheus:v2.54.1
+# quay.io/prometheus/alertmanager:v0.27.0
+# quay.io/prometheus/node-exporter:v1.8.2
+# quay.io/prometheus/blackbox-exporter:v0.25.0
+# ghcr.io/jimmidyson/configmap-reload:v0.14.0
+# quay.io/brancz/kube-rbac-proxy:v0.18.1
+# registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0
+# grafana/grafana:11.2.1
 
 # k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
 # mysql:8.0
@@ -59,15 +59,15 @@ grafana/grafana:11.2.1
 # registry.k8s.io/etcd:3.5.7-0 
 # registry.k8s.io/coredns/coredns:v1.10.1
 
-zabbix/zabbix-server-mysql:latest
-zabbix/zabbix-server-pgsql:latest
-zabbix/zabbix-web-apache-pgsql:latest
-zabbix/zabbix-web-apache-mysql:latest
-zabbix/zabbix-web-nginx-mysql:latest
-zabbix/zabbix-web-nginx-pgsql:latest
-zabbix/zabbix-agent:latest
-zabbix/zabbix-agent2:latest
-zabbix/zabbix-java-gateway:latest
+# zabbix/zabbix-server-mysql:latest
+# zabbix/zabbix-server-pgsql:latest
+# zabbix/zabbix-web-apache-pgsql:latest
+# zabbix/zabbix-web-apache-mysql:latest
+# zabbix/zabbix-web-nginx-mysql:latest
+# zabbix/zabbix-web-nginx-pgsql:latest
+# zabbix/zabbix-agent:latest
+# zabbix/zabbix-agent2:latest
+# zabbix/zabbix-java-gateway:latest
 
 
 # zabbix/zabbix-server-mysql:ubuntu-7.0-latest
