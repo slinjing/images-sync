@@ -23,8 +23,8 @@ while IFS= read -r image; do
     target_image="${REGISTRY}/${NAMESPACE}/${image_name}:$image_tag"
 
     # 处理镜像:
-    echo "正在处理镜像: $image_new"
-    echo "拉取镜像: $image_new"
+    echo "正在处理镜像: ${image_name}:$image_tag"
+    echo "拉取镜像: ${image_name}:$image_tag"
     docker pull $image
     if [ $? -eq 0 ]; then
         echo "镜像: $image 拉取完成"
