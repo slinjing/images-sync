@@ -29,6 +29,7 @@ while IFS= read -r image; do
     
     if [ $? -eq 0 ]; then
         echo "镜像: $image_name:$image_tag 拉取完成"   
+        echo "Tag 镜像: $image" 
         docker tag $image $target_image
         if [ $? -eq 0 ]; then
             echo "正在推送: $image_name:$image_tag 到 $target_image"
