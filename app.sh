@@ -35,6 +35,7 @@ while IFS= read -r image; do
             docker push $target_image
             if [ $? -eq 0 ]; then
                 echo "镜像: $image_name:$image_tag 同步完成，已推送到 $target_image"
+                echo $image_name:$image_tag >> succeeded.log
             else
                 echo "镜像: $image_name:$image_tag Push失败，退出状态码为 $?"
                 exit 1
@@ -47,5 +48,5 @@ while IFS= read -r image; do
         echo "镜像: $image_name:$image_tag Pull失败，退出状态码为 $?"
         exit 1
     fi
-
+    cat succeeded.log
 done < images.yaml
