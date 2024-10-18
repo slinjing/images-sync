@@ -1,5 +1,6 @@
-mysql:8.0
-mysql:5.7
+k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+# mysql:8.0
+# mysql:5.7
 
 # python:latest
 # python:3.13-slim-bullseye
