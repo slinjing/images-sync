@@ -1,5 +1,6 @@
+grafana
 # quay.io/prometheus/prometheus:v2.54.1
-quay.io/prometheus/alertmanager:v0.27.0
+# quay.io/prometheus/alertmanager:v0.27.0
 # quay.io/prometheus/node-exporter:v1.8.2
 # quay.io/prometheus/blackbox-exporter:v0.25.0
 # ghcr.io/jimmidyson/configmap-reload:v0.14.0
