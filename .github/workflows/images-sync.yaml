@@ -27,3 +27,6 @@ jobs:
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_USER }}
+
+    - name: Clean up
+      run: docker images -f $(docker ps -q)
