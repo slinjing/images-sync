@@ -26,7 +26,7 @@ jobs:
       run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
-        NAMESPACE: ${{ secrets.REGISTRY_USER }}
+        NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
 
     - name: Succeeded
       run: cat succeeded.log || true
