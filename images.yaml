@@ -1,8 +1,8 @@
 python:latest
 python:3.13-slim-bullseye
-node:22.10.0-alpine3.20
-openjdk:24-slim-bullseye
-alpine:latest
+# node:22.10.0-alpine3.20
+# openjdk:24-slim-bullseye
+# alpine:latest
 
 # neo4j:latest
 # gitlab/gitlab-ce:latest
