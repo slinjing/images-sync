@@ -1,85 +1,85 @@
-# python:latest
+python:latest
 python:3.13-slim-bullseye
 node:22.10.0-alpine3.20
 
-# openjdk:24-slim-bullseye
-# alpine:latest
+openjdk:24-slim-bullseye
+alpine:latest
 
-# neo4j:latest
-# gitlab/gitlab-ce:latest
-
-
-# jenkins/jenkins:2.414.3-lts
+neo4j:latest
+gitlab/gitlab-ce:latest
 
 
-# sonarqube:lts-community
+jenkins/jenkins:2.414.3-lts
 
 
-# registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
+sonarqube:lts-community
 
 
-
-# bitnami/kafka:latest
-
-
-# redis:latest
-# redis:6.2.4
-
-
-# prom/prometheus:latest
-# prom/alertmanager:latest
-# prom/mysqld-exporter:latest
-# prom/blackbox-exporter:latest
-# prom/node-exporter:latest
-# prom/influxdb-exporter:latest
-# prom/snmp-exporter:latest
-# prom/haproxy-exporter:latest
+registry.k8s.io/ingress-nginx/controller:v1.12.0-beta.0
 
 
 
-# registry.k8s.io/kube-apiserver:v1.27.4 
-# registry.k8s.io/kube-apiserver:v1.27.4 
-# registry.k8s.io/kube-controller-manager:v1.27.4 
-# registry.k8s.io/kube-scheduler:v1.27.4 
-# registry.k8s.io/kube-proxy:v1.27.4 
-# registry.k8s.io/pause:3.9 
-# registry.k8s.io/etcd:3.5.7-0 
-# registry.k8s.io/coredns/coredns:v1.10.1
+bitnami/kafka:latest
+
+
+redis:latest
+redis:6.2.4
+
+
+prom/prometheus:latest
+prom/alertmanager:latest
+prom/mysqld-exporter:latest
+prom/blackbox-exporter:latest
+prom/node-exporter:latest
+prom/influxdb-exporter:latest
+prom/snmp-exporter:latest
+prom/haproxy-exporter:latest
 
 
 
-# zabbix/zabbix-server-mysql:ubuntu-7.0-latest
-# zabbix/zabbix-server-pgsql:ubuntu-7.0-latest
-# zabbix/zabbix-web-apache-pgsql:ubuntu-7.0-latest
-# zabbix/zabbix-web-apache-mysql:ubuntu-7.0-latest
-# zabbix/zabbix-web-nginx-mysql:ubuntu-7.0-latest
-# zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest
-# zabbix/zabbix-agent:ubuntu-7.0-latest
-# zabbix/zabbix-agent2:ubuntu-7.0-latest
-# zabbix/zabbix-java-gateway:ubuntu-7.0-latest
-
-# zabbix/zabbix-server-mysql:ubuntu-6.0-latest
-# zabbix/zabbix-server-pgsql:ubuntu-6.0-latest
-# zabbix/zabbix-web-apache-pgsql:ubuntu-6.0-latest
-# zabbix/zabbix-web-apache-mysql:ubuntu-6.0-latest
-# zabbix/zabbix-web-nginx-mysql:ubuntu-6.0-latest
-# zabbix/zabbix-web-nginx-pgsql:ubuntu-6.0-latest
-# zabbix/zabbix-agent:ubuntu-6.0-latest
-# zabbix/zabbix-agent2:ubuntu-6.0-latest
-# zabbix/zabbix-java-gateway:ubuntu-6.0-latest
-
-# zabbix/zabbix-server-mysql:ubuntu-5.0-latest
-# zabbix/zabbix-server-pgsql:ubuntu-5.0-latest
-# zabbix/zabbix-web-apache-pgsql:ubuntu-5.0-latest
-# zabbix/zabbix-web-apache-mysql:ubuntu-5.0-latest
-# zabbix/zabbix-web-nginx-mysql:ubuntu-5.0-latest
-# zabbix/zabbix-web-nginx-pgsql:ubuntu-5.0-latest
-# zabbix/zabbix-agent:ubuntu-5.0-latest
-# zabbix/zabbix-agent2:ubuntu-5.0-latest
-# zabbix/zabbix-java-gateway:ubuntu-5.0-latest
+registry.k8s.io/kube-apiserver:v1.27.4 
+registry.k8s.io/kube-apiserver:v1.27.4 
+registry.k8s.io/kube-controller-manager:v1.27.4 
+registry.k8s.io/kube-scheduler:v1.27.4 
+registry.k8s.io/kube-proxy:v1.27.4 
+registry.k8s.io/pause:3.9 
+registry.k8s.io/etcd:3.5.7-0 
+registry.k8s.io/coredns/coredns:v1.10.1
 
 
 
-# grafana/grafana:11.2.0
-# grafana/grafana:10.4.5
-# grafana/grafana:latest
+zabbix/zabbix-server-mysql:ubuntu-7.0-latest
+zabbix/zabbix-server-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-web-apache-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-web-apache-mysql:ubuntu-7.0-latest
+zabbix/zabbix-web-nginx-mysql:ubuntu-7.0-latest
+zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest
+zabbix/zabbix-agent:ubuntu-7.0-latest
+zabbix/zabbix-agent2:ubuntu-7.0-latest
+zabbix/zabbix-java-gateway:ubuntu-7.0-latest
+
+zabbix/zabbix-server-mysql:ubuntu-6.0-latest
+zabbix/zabbix-server-pgsql:ubuntu-6.0-latest
+zabbix/zabbix-web-apache-pgsql:ubuntu-6.0-latest
+zabbix/zabbix-web-apache-mysql:ubuntu-6.0-latest
+zabbix/zabbix-web-nginx-mysql:ubuntu-6.0-latest
+zabbix/zabbix-web-nginx-pgsql:ubuntu-6.0-latest
+zabbix/zabbix-agent:ubuntu-6.0-latest
+zabbix/zabbix-agent2:ubuntu-6.0-latest
+zabbix/zabbix-java-gateway:ubuntu-6.0-latest
+
+zabbix/zabbix-server-mysql:ubuntu-5.0-latest
+zabbix/zabbix-server-pgsql:ubuntu-5.0-latest
+zabbix/zabbix-web-apache-pgsql:ubuntu-5.0-latest
+zabbix/zabbix-web-apache-mysql:ubuntu-5.0-latest
+zabbix/zabbix-web-nginx-mysql:ubuntu-5.0-latest
+zabbix/zabbix-web-nginx-pgsql:ubuntu-5.0-latest
+zabbix/zabbix-agent:ubuntu-5.0-latest
+zabbix/zabbix-agent2:ubuntu-5.0-latest
+zabbix/zabbix-java-gateway:ubuntu-5.0-latest
+
+
+
+grafana/grafana:11.2.0
+grafana/grafana:10.4.5
+grafana/grafana:latest
