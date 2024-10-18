@@ -38,7 +38,7 @@ while IFS= read -r image; do
             echo "正在推送: $image_new 到 $target_image"
             docker push $target_image
             if [ $? -eq 0 ]; then
-                echo "镜像: $image_new 同步完成，已推送到 $target_image \n"
+                echo "镜像: $image_new 同步完成，已推送到 $target_image"
             else
                 echo "镜像: $image_new Push失败，退出状态码为 $?"
                 exit 1
