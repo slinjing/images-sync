@@ -28,5 +28,5 @@ jobs:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_USER }}
 
-    - name: Clean up
-      run: sudo docker rmi -f $(docker images -q)
+    # - name: Clean up
+    #   run: sudo docker rmi -f $(docker images -q)
