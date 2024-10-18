@@ -29,4 +29,4 @@ jobs:
         NAMESPACE: ${{ secrets.REGISTRY_USER }}
 
     - name: Succeeded
-      run: cat succeeded.log
+      run: cat succeeded.log || true
