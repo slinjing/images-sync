@@ -2,7 +2,7 @@
 # gitlab/gitlab-ce:latest
 
 # jenkins
-jenkins/jenkins:2.414.3-lts
+# jenkins/jenkins:2.414.3-lts
 
 # sonarqube
 # sonarqube:lts-community
@@ -12,10 +12,10 @@ jenkins/jenkins:2.414.3-lts
 
 
 # kafka
-bitnami/kafka:latest
+# bitnami/kafka:latest
 
 # redis
-redis:latest
+# redis:latest
 redis:6.2.4
 
 # prometheus
