@@ -2,7 +2,7 @@
 gitlab/gitlab-ce:latest
 
 # jenkins
-# jenkins/jenkins:2.414.3-lts
+jenkins/jenkins:2.414.3-lts
 
 # sonarqube
 # sonarqube:lts-community
@@ -76,4 +76,3 @@ prom/haproxy-exporter:latest
 # grafana/grafana:11.2.0
 # grafana/grafana:10.4.5
 grafana/grafana:latest
-
