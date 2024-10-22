@@ -1,4 +1,6 @@
-ubuntu:latest
+sonatype/nexus3
+
+# ubuntu:latest
 
 # tomcat:latest
 
