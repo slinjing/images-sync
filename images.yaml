@@ -1,4 +1,6 @@
-docker.io/calico/cni:v3.28.0
+mongo:latest
+
+# docker.io/calico/cni:v3.28.0
 
 # vulhub/kkfileview:4.3.0
 
