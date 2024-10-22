@@ -1,4 +1,17 @@
-google/cadvisor
+# 拉取Elasticsearch镜像
+docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+ 
+# 拉取Kibana镜像
+docker.elastic.co/kibana/kibana:7.10.0
+ 
+# 拉取Logstash镜像
+docker.elastic.co/logstash/logstash:7.10.0
+
+# 拉取fluentd镜像
+fluent/fluentd:latest
+
+# google/cadvisor
+
 # quay.io/prometheus/prometheus:v2.54.1
 # quay.io/prometheus/alertmanager:v0.27.0
 # quay.io/prometheus/node-exporter:v1.8.2
