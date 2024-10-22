@@ -1,4 +1,6 @@
-tomcat:latest
+ubuntu:latest
+
+# tomcat:latest
 
 # mongo:latest
 
