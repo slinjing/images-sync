@@ -1,4 +1,6 @@
-mongo:latest
+tomcat:latest
+
+# mongo:latest
 
 # docker.io/calico/cni:v3.28.0
 
