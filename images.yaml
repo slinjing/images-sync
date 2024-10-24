@@ -1,6 +1,4 @@
-registry
-
-# sonatype/nexus3
+sonatype/nexus3
 
 # ubuntu:latest
 
