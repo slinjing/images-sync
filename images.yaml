@@ -1,4 +1,10 @@
-sonatype/nexus3
+mariadb:10
+redis:7.2-alpine
+crazymax/msmtpd:latest
+librenms/librenms:latest
+librenms/librenms:latest
+
+# sonatype/nexus3
 
 # ubuntu:latest
 
