@@ -1,4 +1,4 @@
-jenkins:2.440.1
+jenkins/jenkins:2.440.1-lts
 
 # mariadb:10
 # redis:7.2-alpine
