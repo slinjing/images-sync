@@ -1,8 +1,10 @@
-mariadb:10
-redis:7.2-alpine
-crazymax/msmtpd:latest
-librenms/librenms:latest
-librenms/librenms:latest
+jenkins:2.440.1
+
+# mariadb:10
+# redis:7.2-alpine
+# crazymax/msmtpd:latest
+# librenms/librenms:latest
+# librenms/librenms:latest
 
 # sonatype/nexus3
 
