@@ -1,4 +1,3 @@
-jenkins/jenkins:2.440.1-lts
 
 # mariadb:10
 # redis:7.2-alpine
@@ -50,6 +49,7 @@ jenkins/jenkins:2.440.1-lts
 
 
 # jenkins/jenkins:2.414.3-lts
+# jenkins/jenkins:2.440.1-lts
 
 
 # sonarqube:lts-community
