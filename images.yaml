@@ -1,5 +1,2 @@
-docker.io/calico/cni:v3.20.6
-docker.io/calico/cni:v3.20.6
-docker.io/calico/pod2daemon-flexvol:v3.20.6
-docker.io/calico/node:v3.20.6
-docker.io/calico/kube-controllers:v3.20.6
+docker.io/flannel/flannel-cni-plugin:v1.5.1-flannel2
+docker.io/flannel/flannel:v0.26.0
