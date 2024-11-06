@@ -1,12 +1,5 @@
-eipwork/kuboard-agent:v3
-eipwork/etcd-host:3.4.16-1
-eipwork/kuboard:v3
- questdb/questdb:6.0.4
-eipwork/kuboard-agent:v3 registry.mycompany.com/kuboard/kuboard-agent:v3
-eipwork/etcd-host:3.4.16-1 registry.mycompany.com/kuboard/etcd-host:3.4.16-1
-eipwork/kuboard:v3 registry.mycompany.com/kuboard/kuboard:v3
-questdb/questdb:6.0.4 registry.mycompany.com/kuboard/questdb:6.0.4
-registry.mycompany.com/kuboard/kuboard-agent:v3
-registry.mycompany.com/kuboard/etcd-host:3.4.16-1
-registry.mycompany.com/kuboard/kuboard:v3
-registry.mycompany.com/kuboard/questdb:6.0.4
+docker.io/calico/cni:v3.20.6
+docker.io/calico/cni:v3.20.6
+docker.io/calico/pod2daemon-flexvol:v3.20.6
+docker.io/calico/node:v3.20.6
+docker.io/calico/kube-controllers:v3.20.6
