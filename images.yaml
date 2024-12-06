@@ -1,1 +1,9 @@
-quay.io/omd/jekyll
+goharbor/harbor-log:v2.11.2
+goharbor/registry-photon:v2.11.2
+goharbor/harbor-registryctl:v2.11.2
+goharbor/harbor-db:v2.11.2
+goharbor/harbor-core:v2.11.2
+goharbor/harbor-portal:v2.11.2
+goharbor/harbor-jobservice:v2.11.2
+goharbor/redis-photon:v2.11.2
+goharbor/nginx-photon:v2.11.2
