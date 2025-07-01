@@ -1,4 +1,5 @@
-ghcr.io/immich-app/immich-server:release
-ghcr.io/immich-app/immich-machine-learning:release
-docker.io/valkey/valkey:8-bookworm
-ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+victoriametrics/victoria-metrics:v1.79.12
+redis:6.2
+mysql:8
+flashcatcloud/nightingale:latest
+flashcatcloud/categraf:latest
