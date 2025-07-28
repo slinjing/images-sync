@@ -1,5 +1,1 @@
-victoriametrics/victoria-metrics:v1.79.12
-redis:6.2
-mysql:8
-flashcatcloud/nightingale:latest
-flashcatcloud/categraf:latest
+mysql:8.1.0
