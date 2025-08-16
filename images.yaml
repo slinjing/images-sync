@@ -1,1 +1,4 @@
-bestzwei/libretv:latest
+registry.cn-chengdu.aliyuncs.com/shulinjing/nginx:alpine-slim
+registry.cn-chengdu.aliyuncs.com/shulinjing/mariadb:lts
+registry.cn-chengdu.aliyuncs.com/shulinjing/redis:alpine
+registry.cn-chengdu.aliyuncs.com/shulinjing/nextcloud:fpm
