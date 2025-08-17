@@ -1,4 +1,1 @@
-nginx:alpine-slim
-mariadb:lts
-redis:alpine
-nextcloud:fpm
+ubuntu:22.04
