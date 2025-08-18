@@ -8,7 +8,7 @@ haproxy:latest               # HAProxy 负载均衡
 traefik:latest               # 现代反向代理和负载均衡器
 mysql:latest                 # MySQL 官方镜像
 postgres:latest              # PostgreSQL 官方镜像
-redis:latest                 # Redis 键值数据库
+redis:latest                 # Redis 键值数据库  
 mongo:latest                 # MongoDB NoSQL 数据库
 prom/prometheus:latest       # Prometheus 监控系统
 grafana/grafana:latest       # Grafana 可视化仪表盘
