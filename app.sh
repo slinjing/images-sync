@@ -83,14 +83,14 @@ export REGISTRY NAMESPACE TIMEOUT FAILED_FILE LOG_FILE
 main() {
     check_deps
     
-    # 登录阿里云ACR
-    echo "🔐 正在登录阿里云ACR..."
-    echo "$ALIYUN_ACR_PASSWORD" | docker login \
-        --username="$ALIYUN_ACR_USERNAME" \
-        --password-stdin \
-        "$REGISTRY" || {
-        echo "❌ ACR登录失败!"
-        exit 1
+    # # 登录阿里云ACR
+    # echo "🔐 正在登录阿里云ACR..."
+    # echo "$ALIYUN_ACR_PASSWORD" | docker login \
+    #     --username="$ALIYUN_ACR_USERNAME" \
+    #     --password-stdin \
+    #     "$REGISTRY" || {
+    #     echo "❌ ACR登录失败!"
+    #     exit 1
     }
     
     # 处理输入文件
