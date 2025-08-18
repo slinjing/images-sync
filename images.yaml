@@ -1,14 +1,2 @@
 nvidia/cuda:12.5.0-base-ubuntu22.04
-nvidia/cuda:12.5.0-devel-ubuntu22.04 
 
-# 基础镜像
-nginx:1.25 
-alpine:3.18
-
-# 数据库
-mysql:8.0 
-redis:7.0
-
-# 注释行会被自动跳过 
-# 测试镜像
-busybox:1.36
