@@ -1,10 +1,12 @@
+nvidia/cuda:12.7-runtime-ubuntu22.04
+
 # 基础镜像
-nginx:1.25
-alpine:3.18
+# nginx:1.25
+# alpine:3.18
 
 # 数据库
-mysql:8.0 
-redis:7.0
+# mysql:8.0 
+# redis:7.0
 
 # 注释行会被自动跳过 
 # 测试镜像
