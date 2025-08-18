@@ -1,3 +1,2 @@
-nginx  
-mysql
-radis
+docker.io/calico/node:v3.27.0
+docker.io/flannel/flannel:v0.23.0
