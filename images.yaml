@@ -1,4 +1,4 @@
-nvidia/cuda:12.7-runtime-ubuntu22.04
+nvidia/cuda:12.7.0-devel-ubuntu22.04
 
 # 基础镜像
 # nginx:1.25
