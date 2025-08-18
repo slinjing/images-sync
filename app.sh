@@ -12,7 +12,7 @@ if [ -z "$REGISTRY" ] || [ -z "$NAMESPACE" ]; then
 fi
 
 # 配置并行度（可根据需要调整）
-MAX_JOBS=4
+MAX_JOBS=100
 CURRENT_JOBS=0
 
 # 设置日志文件
