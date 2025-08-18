@@ -1,2 +1,34 @@
-docker.io/calico/node:v3.27.0
-docker.io/flannel/flannel:v0.23.0
+alpine:latest                # 轻量级 Linux 发行版
+ubuntu:latest                # Ubuntu 官方镜像
+debian:latest                # Debian 官方镜像
+centos:latest                # CentOS（官方已停止支持，建议迁移）
+nginx:latest                 # Nginx 官方镜像
+httpd:latest                 # Apache HTTP Server
+haproxy:latest               # HAProxy 负载均衡
+traefik:latest               # 现代反向代理和负载均衡器
+mysql:latest                 # MySQL 官方镜像
+postgres:latest              # PostgreSQL 官方镜像
+redis:latest                 # Redis 键值数据库
+mongo:latest                 # MongoDB NoSQL 数据库
+prom/prometheus:latest       # Prometheus 监控系统
+grafana/grafana:latest       # Grafana 可视化仪表盘
+elasticsearch:latest         # Elasticsearch 搜索引擎
+kibana:latest                # Kibana ELK 日志可视化
+fluent/fluentd:latest        # Fluentd 日志收集器
+grafana/loki:latest          # Loki 轻量级日志聚合系统
+registry:latest              # Docker 私有仓库镜像
+portainer/portainer-ce:latest # Portainer 容器管理 UI
+k8s.gcr.io/kube-apiserver:v1.22.0    # Kubernetes API Server
+k8s.gcr.io/kube-controller-manager:v1.22.0 # Kubernetes 控制器
+k8s.gcr.io/kube-scheduler:v1.22.0    # Kubernetes 调度器
+jenkins/jenkins:lts          # Jenkins CI/CD 工具
+gitlab/gitlab-runner:latest  # GitLab Runner
+drone/drone:latest           # 轻量级 CI/CD 工具 Drone
+busybox:latest               # 集成常用工具的微型系统
+curlimages/curl:latest       # 带 curl 的工具镜像
+python:latest                # Python 官方镜像
+ansible/ansible:latest       # Ansible 配置管理工具
+hashicorp/terraform:latest   # Terraform 基础设施即代码
+clamav/clamav:latest         # ClamAV 防病毒扫描
+mikesplain/openvas:latest    # OpenVAS 漏洞扫描工具
+aquasec/trivy:latest         # Trivy 容器漏洞扫描器
