@@ -119,4 +119,8 @@ SUCCESS=$(cat "$SUCCESS_FILE_COUNT")
 FAILED=$(cat "$FAILED_FILE_COUNT")
 
 log "所有镜像处理完成。总计: $TOTAL, 成功: $SUCCESS, 失败: $FAILED"
+
+# 清理临时文件
+rm -f "$SUCCESS_FILE_COUNT" "$FAILED_FILE_COUNT"
+
 exit $((FAILED > 0 ? 1 : 0))
