@@ -1,66 +1,29 @@
-name: Image Synchronization
-
+name: Image Synchr
+ 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'images.yaml'
-
+    - 'images.yaml'
+ 
 jobs:
   push-image:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # 设置超时时间
     
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4  # 升级到最新版本
+      uses: actions/checkout@v2
+ 
+    - name: Login  Aliyun Registry
+      uses: docker/login-action@v1
       with:
-        fetch-depth: 0  # 获取完整历史记录
-
-    - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v3
-      with:
-        driver-opts: network=host
-
-    - name: Login to Aliyun Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ secrets.REGISTRY }}
-        username: ${{ secrets.REGISTRY_USER }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-      if: success()  # 只有上一步成功才执行
-
-    - name: Validate images.yaml
-      run: |
-        # 简单的YAML格式验证
-        if ! yq e '.' images.yaml > /dev/null; then
-          echo "::error file=images.yaml::Invalid YAML format"
-          exit 1
-        fi
-        echo "images.yaml validation passed"
-      env:
-        YQ_VERSION: 4.40.5  # 指定yq版本
-
-    - name: Push Images
-      run: |
-        chmod +x ./app.sh
-        ./app.sh \
-          --registry "$REGISTRY" \
-          --namespace "$NAMESPACE" \
-          --log-level INFO \
-          --retry 3
+        mode: login
+        registry: ${{ secrets.REGISTRY }}  
+        username: ${{ secrets.REGISTRY_USER }} 
+        password: ${{ secrets.REGISTRY_PASSWORD }} 
+ 
+    - name: Push Image
+      run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
-        DOCKER_CLI_EXPERIMENTAL: enabled  # 启用实验性功能
-        GH_ACTION: "true"  # 标记在GitHub Actions中运行
-
-    - name: Upload Logs
-      if: always()  # 无论成功失败都上传日志
-      uses: actions/upload-artifact@v3
-      with:
-        name: sync-logs
-        path: |
-          ./logs/*
-          ./task_logs/*
-        retention-days: 7
