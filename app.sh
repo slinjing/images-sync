@@ -1,51 +1,78 @@
-while IFS= read -r image; do
+#!/bin/bash
 
-    [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
+# 检查必要文件和环境变量
+if [ ! -f "images.yaml" ]; then
+    echo "错误: images.yaml 文件不存在" >&2
+    exit 1
+fi
 
+if [ -z "$REGISTRY" ] || [ -z "$NAMESPACE" ]; then
+    echo "错误: 必须设置 REGISTRY 和 NAMESPACE 环境变量" >&2
+    exit 1
+fi
 
-    # 镜像名称:
-    image_name=$(echo $image | cut -d ":" -f 1)
-    if [[ $image_name == */* ]]; then
-        image_name=${image_name##*/}
-    fi
-    echo "镜像名称: $image_name"
+# 设置日志文件
+LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
+ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
 
-    # 获取镜像版本:
-    if [[ $image == *:* ]]; then
-        image_tag=$(echo "$image" | cut -d':' -f2)
-    else
-        image_tag=latest
-    fi
-    echo "镜像版本: $image_tag"
+# 日志函数
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $1" | tee -a "$LOG_FILE"
+}
 
+log_error() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] $1" | tee -a "$ERROR_FILE" >&2
+}
 
-    # 拼接镜像信息:
-    target_image="${REGISTRY}/${NAMESPACE}/${image_name}:$image_tag"
-
-    # 处理镜像:
-    echo "正在处理镜像: ${image_name}:$image_tag"
-    echo "拉取镜像: ${image_name}:$image_tag"
-    docker pull $image
+# 处理单个镜像的函数
+process_image() {
+    local image=$1
     
-    if [ $? -eq 0 ]; then
-        echo "镜像: $image_name:$image_tag 拉取完成"   
-        docker tag $image $target_image
-        if [ $? -eq 0 ]; then
-            echo "正在推送: $image_name:$image_tag 到 $target_image"
-            docker push $target_image
-            if [ $? -eq 0 ]; then
-                echo "镜像: $image_name:$image_tag 同步完成，已推送到 $target_image" | tee -a succeeded.log
-            else
-                echo "镜像: $image_name:$image_tag Push失败，退出状态码为 $?"
-                exit 1
-            fi                
-        else
-            echo "镜像: $image_name:$image_tag Tag失败，退出状态码为 $?"
-            exit 1
-        fi
-    else
-        echo "镜像: $image_name:$image_tag Pull失败，退出状态码为 $?"
-        exit 1
+    log "开始处理镜像: $image"
+    
+    # 解析镜像名称
+    local image_name=$(echo "$image" | awk -F: '{print $1}' | awk -F/ '{print $NF}')
+    local image_tag=$(echo "$image" | awk -F: '{print $2}')
+    image_tag=${image_tag:-latest}
+    
+    log "镜像名称: $image_name, 标签: $image_tag"
+    
+    # 目标镜像地址
+    local target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
+    
+    # 拉取镜像
+    if ! docker pull "$image"; then
+        log_error "拉取镜像失败: $image"
+        return 1
     fi
+    
+    # 重新标记
+    if ! docker tag "$image" "$target_image"; then
+        log_error "重新标记镜像失败: $image -> $target_image"
+        return 1
+    fi
+    
+    # 推送镜像
+    if ! docker push "$target_image"; then
+        log_error "推送镜像失败: $target_image"
+        return 1
+    fi
+    
+    log "成功同步镜像: $image -> $target_image"
+    return 0
+}
 
+# 主循环
+while IFS= read -r image; do
+    # 跳过空行和注释
+    [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
+    
+    # 处理镜像
+    if ! process_image "$image"; then
+        log_error "处理镜像时遇到错误: $image"
+        # 可以选择是否继续处理下一个镜像
+        # exit 1
+    fi
 done < images.yaml
+
+log "所有镜像处理完成"
