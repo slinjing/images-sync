@@ -16,9 +16,13 @@ MAX_JOBS=4
 CURRENT_JOBS=0
 
 # 设置日志文件
-LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
-ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
-SUCCESS_FILE="image_sync_success_$(date +%Y%m%d_%H%M%S).log"
+# LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
+# ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
+# SUCCESS_FILE="image_sync_success_$(date +%Y%m%d_%H%M%S).log"
+SUCCESS_FILE_COUNT=$(mktemp)
+FAILED_FILE_COUNT=$(mktemp)
+echo 0 > "$SUCCESS_FILE_COUNT"
+echo 0 > "$FAILED_FILE_COUNT"
 
 # 初始化计数器
 TOTAL=0
@@ -30,14 +34,26 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') $1" | tee -a "$LOG_FILE"
 }
 
+# log_success() {
+#     echo "$(date '+%Y-%m-%d %H:%M:%S') [SUCCESS] $1" | tee -a "$SUCCESS_FILE" >> "$LOG_FILE"
+#     ((SUCCESS++))
+# }
+
+# log_error() {
+#     echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] $1" | tee -a "$ERROR_FILE" >&2 >> "$LOG_FILE"
+#     ((FAILED++))
+# }
+
 log_success() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') [SUCCESS] $1" | tee -a "$SUCCESS_FILE" >> "$LOG_FILE"
-    ((SUCCESS++))
+    # 递增成功计数（原子操作）
+    flock -x "$SUCCESS_FILE_COUNT" -c "echo \$(( \$(cat "$SUCCESS_FILE_COUNT") + 1 )) > $SUCCESS_FILE_COUNT"
 }
 
 log_error() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] $1" | tee -a "$ERROR_FILE" >&2 >> "$LOG_FILE"
-    ((FAILED++))
+    # 递增失败计数（原子操作）
+    flock -x "$FAILED_FILE_COUNT" -c "echo \$(( \$(cat "$FAILED_FILE_COUNT") + 1 )) > $FAILED_FILE_COUNT"
 }
 
 # 处理单个镜像的函数
@@ -98,6 +114,9 @@ done < images.yaml
 
 # 等待所有后台任务完成
 wait
+
+SUCCESS=$(cat "$SUCCESS_FILE_COUNT")
+FAILED=$(cat "$FAILED_FILE_COUNT")
 
 log "所有镜像处理完成。总计: $TOTAL, 成功: $SUCCESS, 失败: $FAILED"
 exit $((FAILED > 0 ? 1 : 0))
