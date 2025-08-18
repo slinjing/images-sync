@@ -1,8 +1,3 @@
-gitlab/gitlab-ce:latest
-halohub/halo:2.10
-mysql:8.1.0
-bitnami/zookeeper:latest
-bitnami/kafka
-portainer/portainer-ce:2.21.0
-prom/prometheus
-redis:6.2.4
+nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu20.04
+nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+nvidia/cuda:12.0.1-cudnn8-runtime-ubuntu20.04
