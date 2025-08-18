@@ -27,3 +27,6 @@ jobs:
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
+
+    - name: Succeeded
+      run: cat succeeded.log || true
