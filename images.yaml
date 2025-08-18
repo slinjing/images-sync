@@ -2,7 +2,7 @@ nvidia/cuda:12.5.0-base-ubuntu22.04
 nvidia/cuda:12.5.0-devel-ubuntu22.04 
 
 # 基础镜像
-nginx:1.25
+nginx:1.25 
 alpine:3.18
 
 # 数据库
