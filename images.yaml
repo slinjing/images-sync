@@ -1,7 +1,3 @@
-alpine:latest                # 轻量级 Linux 发行版
-ubuntu:latest                # Ubuntu 官方镜像
-debian:latest                # Debian 官方镜像
-centos:latest                # CentOS（官方已停止支持，建议迁移）
 nginx:latest                 # Nginx 官方镜像
 httpd:latest                 # Apache HTTP Server
 haproxy:latest               # HAProxy 负载均衡
