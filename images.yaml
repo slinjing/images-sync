@@ -1,1 +1,13 @@
-lihaixin/vpnikuai:clash
+gradle:8-jdk17
+eclipse-temurin:21
+ghcr.io/openrailassociation/osrd-edge/osrd-core:dev
+ghcr.io/openrailassociation/osrd-edge/osrd-editoast:dev
+ghcr.io/openrailassociation/osrd-edge/osrd-gateway:dev-front
+jaegertracing/jaeger:latest
+openfga/openfga:latest
+ghcr.io/openrailassociation/osrd-stable/osrd-images:v1.0.0
+ghcr.io/openrailassociation/osrd-edge/osrd-osrdyne:dev
+postgis/postgis:16-3.4-alpine
+rabbitmq:4-management
+valkey/valkey:alpine
+alpine:latest
