@@ -1,4 +1,7 @@
-lscr.io/linuxserver/grav:latest
+# oracle
+gvenzl/oracle-xe:21-slim
+
+# lscr.io/linuxserver/grav:latest
 
 # mysql:latest
 # nginx:latest
