@@ -5,12 +5,12 @@ gvenzl/oracle-xe:21-slim
    
 lscr.io/linuxserver/grav:latest
 
-# mysql:latest
-# nginx:latest
+mysql:latest
+nginx:latest
 
 # osrd
 # docker.io/lukemathwalker/cargo-chef:0.1.71-rust-1.88-alpine3.22
-# alpine:3.22
+alpine:3.22
 # docker.io/docker/dockerfile:1
 # node:24-alpine
 # gradle:8-jdk17
