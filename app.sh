@@ -15,10 +15,9 @@ fi
 MAX_JOBS=4
 
 # 设置日志文件
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-LOG_FILE="image_sync_${TIMESTAMP}.log"
-ERROR_FILE="image_sync_errors_${TIMESTAMP}.log"
-SUCCESS_FILE="image_sync_success_${TIMESTAMP}.log"
+LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
+ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
+SUCCESS_FILE="image_sync_success_$(date +%Y%m%d_%H%M%S).log"
 
 # 记录镜像名称的文件
 SUCCESS_IMAGES_FILE=$(mktemp)
@@ -57,43 +56,31 @@ process_image() {
     # 目标镜像地址
     local target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
     
-    log "目标镜像: $target_image"
-    
     # 拉取镜像
     if ! docker pull "$image" >> "$LOG_FILE" 2>&1; then
         log_error "$image" "拉取镜像失败"
         return 1
     fi
-    log "镜像拉取成功: $image"
     
     # 重新标记
     if ! docker tag "$image" "$target_image" >> "$LOG_FILE" 2>&1; then
         log_error "$image" "重新标记镜像失败"
         return 1
     fi
-    log "镜像标记成功: $image -> $target_image"
     
     # 推送镜像
     if ! docker push "$target_image" >> "$LOG_FILE" 2>&1; then
         log_error "$image" "推送镜像失败"
         return 1
     fi
-    log "镜像推送成功: $target_image"
     
     log_success "$image" "$target_image"
     return 0
 }
 
 # 主循环
-log "===== 开始镜像同步任务 ====="
-log "最大并行度: $MAX_JOBS"
-log "目标仓库: $REGISTRY/$NAMESPACE"
-log "开始时间: $(date '+%Y-%m-%d %H:%M:%S')"
-
+log "开始镜像同步任务，最大并行度: $MAX_JOBS"
 TOTAL=0
-SUCCESS_COUNT=0
-FAILED_COUNT=0
-
 while IFS= read -r image; do
     [[ -z "$image" || "$image" =~ ^#.*$ ]] && continue
     ((TOTAL++))
@@ -107,27 +94,23 @@ done < images.yaml
 wait
 
 # 统计结果
-SUCCESS=$(wc -l < "$SUCCESS_IMAGES_FILE" 2>/dev/null | tr -d ' ' || echo 0)
-FAILED=$(wc -l < "$FAILED_IMAGES_FILE" 2>/dev/null | tr -d ' ' || echo 0)
+SUCCESS=$(wc -l < "$SUCCESS_IMAGES_FILE" | tr -d ' ')
+FAILED=$(wc -l < "$FAILED_IMAGES_FILE" | tr -d ' ')
 
 # 打印汇总报告
 log "===== 同步结果汇总 ====="
 log "总计处理: $TOTAL 个镜像"
 log "成功: $SUCCESS 个"
-log "失败: $FAILED 个"
-
 if [ "$SUCCESS" -gt 0 ]; then
     log "成功镜像列表:"
-    cat "$SUCCESS_IMAGES_FILE" 2>/dev/null | sed 's/^/  - /' | tee -a "$LOG_FILE"
+    cat "$SUCCESS_IMAGES_FILE" | sed 's/^/  - /' | tee -a "$LOG_FILE"
 fi
 
+log "失败: $FAILED 个"
 if [ "$FAILED" -gt 0 ]; then
     log "失败镜像列表:"
-    cat "$FAILED_IMAGES_FILE" 2>/dev/null | sed 's/^/  - /' | tee -a "$LOG_FILE"
+    cat "$FAILED_IMAGES_FILE" | sed 's/^/  - /' | tee -a "$LOG_FILE"
 fi
-
-log "结束时间: $(date '+%Y-%m-%d %H:%M:%S')"
-log "===== 任务完成 ====="
 
 # 清理临时文件
 rm -f "$SUCCESS_IMAGES_FILE" "$FAILED_IMAGES_FILE"
