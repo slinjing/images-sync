@@ -1,11 +1,11 @@
-name: Image Synchr
- 
+name: Image Synchronization
+
 on:
   push:
     branches: [ main ]
     paths:
     - 'images.yaml'
- 
+
 jobs:
   push-image:
     runs-on: ubuntu-latest
@@ -13,17 +13,39 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
- 
-    - name: Login  Aliyun Registry
+
+    - name: Login to Aliyun Registry
       uses: docker/login-action@v1
       with:
         mode: login
         registry: ${{ secrets.REGISTRY }}  
         username: ${{ secrets.REGISTRY_USER }} 
         password: ${{ secrets.REGISTRY_PASSWORD }} 
- 
+
     - name: Push Image
       run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
+    
+    # 添加成功后的通知步骤
+    - name: Send success notification to WeChat
+      if: success()
+      run: |
+        curl -X POST \
+          -d "title=✅ 镜像同步成功" \
+          -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+          "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
+
+  # 添加专门的通知job，处理失败情况
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: push-image
+    if: failure()  # 只有push-image失败时才运行
+    steps:
+      - name: Send failure notification to WeChat
+        run: |
+          curl -X POST \
+            -d "title=❌ 镜像同步失败" \
+            -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>错误: 请查看GitHub Actions日志" \
+            "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
