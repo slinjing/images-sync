@@ -11,9 +11,6 @@ if [ -z "$REGISTRY" ] || [ -z "$NAMESPACE" ]; then
     exit 1
 fi
 
-# 配置并行度
-MAX_JOBS=${MAX_JOBS:-4}
-
 # 设置日志文件
 LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
 ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
@@ -90,29 +87,36 @@ process_image() {
     return 0
 }
 
+# 读取镜像列表
+mapfile -t IMAGES < <(grep -vE '^\s*(#|$)' images.yaml)
+TOTAL=${#IMAGES[@]}
+
+# 配置并行度（根据镜像数量动态调整）
+MAX_JOBS=${MAX_JOBS:-4}
+if [ "$TOTAL" -lt "$MAX_JOBS" ]; then
+    MAX_JOBS="$TOTAL"
+fi
+
 # 主循环
 echo "🚀 开始镜像同步任务"
 echo "📊 最大并行度: $MAX_JOBS"
-echo "========================================"
-
 log "开始镜像同步任务，最大并行度: $MAX_JOBS"
 
-TOTAL=0
+echo "📋 总共需要处理: $TOTAL 个镜像"
+echo "========================================"
+echo ""
+
+TOTAL_PROCESSED=0
 SUCCESS=0
 FAILED=0
-
-# 读取镜像列表到数组
-mapfile -t IMAGES < <(grep -vE '^\s*(#|$)' images.yaml)
-
-TOTAL=${#IMAGES[@]}
-echo "📋 总共需要处理: $TOTAL 个镜像"
-echo ""
 
 # 处理每个镜像
 for ((i=0; i<${#IMAGES[@]}; i++)); do
     image="${IMAGES[$i]}"
+    TOTAL_PROCESSED=$((i+1))
+    
     echo "========================================"
-    echo "🔄 处理进度: $((i+1))/$TOTAL"
+    echo "🔄 处理进度: $TOTAL_PROCESSED/$TOTAL"
     
     # 等待直到有可用的并行槽位
     while [ $(jobs -rp | wc -l) -ge "$MAX_JOBS" ]; do
