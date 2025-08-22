@@ -22,30 +22,76 @@ jobs:
         username: ${{ secrets.REGISTRY_USER }} 
         password: ${{ secrets.REGISTRY_PASSWORD }} 
 
-    - name: Push Image
+    - name: Push Image and Generate Report
+      id: push-image
       run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
     
-    # 添加成功后的通知步骤
-    - name: Send success notification to WeChat
-      if: success()
+    - name: Upload Log Files
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: sync-logs
+        path: |
+          image_sync_*.log
+          image_sync_*_success.log
+          image_sync_*_errors.log
+    
+    - name: Parse and Send Notification
+      if: always()
       run: |
-        curl -X POST \
-          -d "title=✅ 镜像同步成功" \
-          -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-          "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
+        # 查找最新的日志文件
+        LATEST_LOG=$(ls -t image_sync_*.log | head -1)
+        LATEST_SUCCESS=$(ls -t image_sync_*_success.log | head -1)
+        LATEST_ERROR=$(ls -t image_sync_*_errors.log | head -1)
+        
+        # 提取统计信息
+        TOTAL=$(grep "总计处理" "$LATEST_LOG" | awk '{print $3}' || echo "未知")
+        SUCCESS=$(grep "成功:" "$LATEST_LOG" | awk '{print $2}' || echo "0")
+        FAILED=$(grep "失败:" "$LATEST_LOG" | awk '{print $2}' || echo "0")
+        
+        # 获取成功和失败的镜像列表
+        SUCCESS_IMAGES=$(sed -n '/成功镜像列表:/,/失败:/{/成功镜像列表:/!{/失败:/!p}}' "$LATEST_LOG" | grep "^-" | sed 's/^  - //' | tr '\n' ',' | sed 's/,$//' || echo "无")
+        FAILED_IMAGES=$(sed -n '/失败镜像列表:/,/exit/{/失败镜像列表:/!{/exit/!p}}' "$LATEST_LOG" | grep "^-" | sed 's/^  - //' | tr '\n' ',' | sed 's/,$//' || echo "无")
+        
+        # 构建Markdown格式的消息
+        STATUS=$([ "${{ job.status }}" == "success" ] && echo "✅" || echo "❌")
+        TITLE="$STATUS 镜像同步完成 - ${{ job.status }}"
+        
+        MESSAGE="## 📦 镜像同步报告
+**仓库:** ${{ github.repository }}  
+**分支:** ${{ github.ref }}  
+**提交者:** ${{ github.actor }}  
+**执行状态:** ${{ job.status }}  
 
-  # 添加专门的通知job，处理失败情况
-  notify-failure:
-    runs-on: ubuntu-latest
-    needs: push-image
-    if: failure()  # 只有push-image失败时才运行
-    steps:
-      - name: Send failure notification to WeChat
-        run: |
-          curl -X POST \
-            -d "title=❌ 镜像同步失败" \
-            -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>错误: 请查看GitHub Actions日志" \
-            "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
+### 📊 同步统计
+- **总计处理:** $TOTAL 个镜像
+- **成功同步:** $SUCCESS 个
+- **同步失败:** $FAILED 个
+
+### ✅ 成功镜像
+$(if [ "$SUCCESS" -gt 0 ]; then 
+  echo "$SUCCESS_IMAGES" | tr ',' '\n' | sed 's/^/- /'
+else
+  echo "- 无"
+fi)
+
+### ❌ 失败镜像
+$(if [ "$FAILED" -gt 0 ]; then 
+  echo "$FAILED_IMAGES" | tr ',' '\n' | sed 's/^/- /'
+else
+  echo "- 无"
+fi)
+
+### 🔗 详细信息
+- **执行时间:** $(date +'%Y-%m-%d %H:%M:%S')
+- **工作流详情:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+- **日志下载:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts"
+
+        # 发送到微信
+        curl -X POST \
+          -d "title=$TITLE" \
+          -d "desp=$MESSAGE" \
+          "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
