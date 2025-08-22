@@ -2,9 +2,9 @@ name: Image Synchronization
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
-      - 'images.yaml'
+    - 'images.yaml'
 
 jobs:
   push-image:
@@ -12,120 +12,40 @@ jobs:
     
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Login to Aliyun Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v1
       with:
-        registry: ${{ secrets.REGISTRY }}
-        username: ${{ secrets.REGISTRY_USER }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        mode: login
+        registry: ${{ secrets.REGISTRY }}  
+        username: ${{ secrets.REGISTRY_USER }} 
+        password: ${{ secrets.REGISTRY_PASSWORD }} 
 
-    - name: Push Image and Generate Report
-      id: push-image
+    - name: Push Image
       run: chmod +x ./app.sh && ./app.sh
       env:
         REGISTRY: ${{ secrets.REGISTRY }}
         NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
-
-    - name: Upload Log Files
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: sync-logs
-        path: |
-          image_sync_*.log
-          image_sync_*success.log
-          image_sync_*errors.log
-
-    - name: Parse and Send Notification
-      if: always()
-      env:
-        SERVER_JIAN_SENDKEY: ${{ secrets.SERVER_JIAN_SENDKEY }}
+    
+    # 添加成功后的通知步骤
+    - name: Send success notification to WeChat
+      if: success()
       run: |
-        # 设置变量
-        REPOSITORY="${{ github.repository }}"
-        REF="${{ github.ref }}"
-        ACTOR="${{ github.actor }}"
-        STATUS="${{ job.status }}"
-        RUN_URL="https://github.com/$REPOSITORY/actions/runs/${{ github.run_id }}"
-        
-        # 查找最新的日志文件
-        LATEST_LOG=$(ls -t image_sync_*.log 2>/dev/null | head -1 || echo "")
-        
-        if [ -z "$LATEST_LOG" ]; then
-          # 如果没有日志文件，说明脚本可能没有运行
-          TITLE="❌ 镜像同步失败 - 脚本未执行"
-          MESSAGE="## 📦 镜像同步报告
-          **仓库:** $REPOSITORY  
-          **分支:** $REF  
-          **提交者:** $ACTOR  
-          **执行状态:** 失败  
-          
-          ### ❌ 错误信息
-          - 脚本可能未正确执行
-          - 请检查工作流日志
-          
-          ### 🔗 详细信息
-          - **执行时间:** $(date +'%Y-%m-%d %H:%M:%S')
-          - **工作流详情:** $RUN_URL"
-        else
-          # 提取统计信息
-          TOTAL=$(grep "总计处理" "$LATEST_LOG" | awk '{print $3}' | head -1 || echo "未知")
-          SUCCESS=$(grep "^成功:" "$LATEST_LOG" | awk '{print $2}' | head -1 || echo "0")
-          FAILED=$(grep "^失败:" "$LATEST_LOG" | awk '{print $2}' | head -1 || echo "0")
-          
-          # 获取镜像列表
-          SUCCESS_IMAGES=$(sed -n '/成功镜像列表:/,/失败镜像列表:/{/成功镜像列表:/!{/失败镜像列表:/!p}}' "$LATEST_LOG" 2>/dev/null | grep "^-" | sed 's/^  - //' | tr '\n' ',' | sed 's/,$//;s/,/, /g' || echo "无")
-          FAILED_IMAGES=$(sed -n '/失败镜像列表:/,/结束时间:/{/失败镜像列表:/!{/结束时间:/!p}}' "$LATEST_LOG" 2>/dev/null | grep "^-" | sed 's/^  - //' | tr '\n' ',' | sed 's/,$//;s/,/, /g' || echo "无")
-          
-          # 构建消息
-          if [ "$STATUS" = "success" ]; then
-            TITLE="✅ 镜像同步完成 - 成功"
-          else
-            TITLE="❌ 镜像同步完成 - 有失败"
-          fi
-          
-          MESSAGE="## 📦 镜像同步报告
-          **仓库:** $REPOSITORY  
-          **分支:** $REF  
-          **提交者:** $ACTOR  
-          **执行状态:** $STATUS  
-          
-          ### 📊 同步统计
-          - **总计处理:** $TOTAL 个镜像
-          - **成功同步:** $SUCCESS 个
-          - **同步失败:** $FAILED 个
-          
-          ### ✅ 成功镜像
-          $(if [ "$SUCCESS" -gt 0 ] && [ "$SUCCESS_IMAGES" != "无" ]; then
-            echo "$SUCCESS_IMAGES" | tr ',' '\n' | sed 's/^/- /'
-          else
-            echo "- 无"
-          fi)
-          
-          ### ❌ 失败镜像
-          $(if [ "$FAILED" -gt 0 ] && [ "$FAILED_IMAGES" != "无" ]; then
-            echo "$FAILED_IMAGES" | tr ',' '\n' | sed 's/^/- /'
-          else
-            echo "- 无"
-          fi)
-          
-          ### 🔗 详细信息
-          - **执行时间:** $(date +'%Y-%m-%d %H:%M:%S')
-          - **工作流详情:** $RUN_URL
-          - **日志下载:** ${RUN_URL}#artifacts"
-        fi
-        
-        # URL编码消息内容
-        ENCODED_MESSAGE=$(echo "$MESSAGE" | python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.stdin.read()))")
-        
-        # 发送到微信
-        if [ -n "$SERVER_JIAN_SENDKEY" ]; then
+        curl -X POST \
+          -d "title=✅ 镜像同步成功" \
+          -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+          "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
+
+  # 添加专门的通知job，处理失败情况
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: push-image
+    if: failure()  # 只有push-image失败时才运行
+    steps:
+      - name: Send failure notification to WeChat
+        run: |
           curl -X POST \
-            -d "title=$TITLE" \
-            -d "desp=$ENCODED_MESSAGE" \
-            "https://sctapi.ftqq.com/$SERVER_JIAN_SENDKEY.send"
-        else
-          echo "Server酱SendKey未设置，跳过消息发送"
-        fi
+            -d "title=❌ 镜像同步失败" \
+            -d "desp=仓库: ${{ github.repository }}<br>分支: ${{ github.ref }}<br>提交者: ${{ github.actor }}<br>提交信息: ${{ github.event.head_commit.message }}<br>执行时间: $(date +'%Y-%m-%d %H:%M:%S')<br>查看详情: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>错误: 请查看GitHub Actions日志" \
+            "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
