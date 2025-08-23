@@ -1,4 +1,6 @@
-docker pull linuxserver/qbittorrent:5.1.2
+elymsyr/control_system:latest
+
+# linuxserver/qbittorrent:5.1.2
 
 
 # oracle
