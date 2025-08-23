@@ -1,3 +1,4 @@
+nvidia/cuda:12.4.1-devel-ubuntu22.04
 elymsyr/control_system:latest
 
 # linuxserver/qbittorrent:5.1.2
