@@ -1,182 +1,69 @@
 #!/bin/bash
+set -euo pipefail  # 严格模式：未定义变量报错、管道失败即终止、命令失败即终止
 
-# 检查必要文件和环境变量
-if [ ! -f "images.yaml" ]; then
-    echo "错误: images.yaml 文件不存在" >&2
+# 检查必要环境变量
+if [ -z "${REGISTRY:-}" ] || [ -z "${NAMESPACE:-}" ]; then
+    echo "ERROR: 环境变量 REGISTRY 和 NAMESPACE 必须设置"
     exit 1
 fi
 
-if [ -z "$REGISTRY" ] || [ -z "$NAMESPACE" ]; then
-    echo "错误: 必须设置 REGISTRY 和 NAMESPACE 环境变量" >&2
-    exit 1
-fi
+# 初始化日志文件（每次运行清空成功日志，记录失败日志）
+> succeeded.log
+> failed.log
 
-# 设置日志文件
-LOG_FILE="image_sync_$(date +%Y%m%d_%H%M%S).log"
-ERROR_FILE="image_sync_errors_$(date +%Y%m%d_%H%M%S).log"
-SUCCESS_FILE="image_sync_success_$(date +%Y%m%d_%H%M%S).log"
+# 读取镜像列表并处理
+while IFS= read -r image; do
+    # 清理行内容（去除前后空格、跳过空行和注释）
+    image=$(echo "$image" | xargs)  # 去除前后空格
+    [[ -z "$image" || "$image" =~ ^# ]] && continue
 
-# 记录镜像名称的文件
-SUCCESS_IMAGES_FILE=$(mktemp)
-FAILED_IMAGES_FILE=$(mktemp)
+    # 提取镜像名称（处理带路径的镜像名，如 registry.example.com/ns/img -> img）
+    image_name=$(echo "$image" | cut -d ":" -f 1 | xargs)
+    image_name=$(basename "$image_name")  # 更可靠的文件名提取
 
-# 日志函数
-log() {
-    local message="$1"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$timestamp $message" | tee -a "$LOG_FILE"
-}
+    # 提取镜像版本（默认 latest）
+    if [[ "$image" == *":"* ]]; then
+        image_tag=$(echo "$image" | cut -d ":" -f 2 | xargs)
+    else
+        image_tag="latest"
+    fi
 
-log_success() {
-    local image="$1"
-    local target_image="$2"
-    local message="[SUCCESS] $image -> $target_image"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$timestamp $message" | tee -a "$SUCCESS_FILE" >> "$LOG_FILE"
-    echo "$image" >> "$SUCCESS_IMAGES_FILE"
-    echo "✅ $message"
-}
-
-log_error() {
-    local image="$1"
-    local reason="$2"
-    local message="[ERROR] $image ($reason)"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$timestamp $message" | tee -a "$ERROR_FILE" >&2 >> "$LOG_FILE"
-    echo "$image" >> "$FAILED_IMAGES_FILE"
-    echo "❌ $message" >&2
-}
-
-# 处理单个镜像的函数
-process_image() {
-    local image="$1"
-    
-    echo "开始处理镜像: $image"
-    log "开始处理镜像: $image"
-    
-    # 解析镜像名称
-    local image_name=$(echo "$image" | awk -F: '{print $1}' | awk -F/ '{print $NF}')
-    local image_tag=$(echo "$image" | awk -F: '{print $2}')
-    image_tag=${image_tag:-latest}
-    
     # 目标镜像地址
-    local target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
-    
+    target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
+
+    echo -e "\nINFO: 开始处理镜像: $image"
+    echo "INFO: 目标镜像地址: $target_image"
+
     # 拉取镜像
-    echo "拉取镜像: $image"
-    if ! docker pull "$image" 2>&1 | tee -a "$LOG_FILE"; then
-        log_error "$image" "拉取镜像失败"
-        return 1
+    if ! docker pull "$image"; then
+        echo "ERROR: 镜像拉取失败: $image" | tee -a failed.log
+        continue  # 继续处理下一个镜像，而非直接退出
     fi
-    
-    # 重新标记
-    echo "重新标记: $image -> $target_image"
-    if ! docker tag "$image" "$target_image" 2>&1 | tee -a "$LOG_FILE"; then
-        log_error "$image" "重新标记镜像失败"
-        return 1
+
+    # 打标签
+    if ! docker tag "$image" "$target_image"; then
+        echo "ERROR: 镜像打标签失败: $image -> $target_image" | tee -a failed.log
+        continue
     fi
-    
+
     # 推送镜像
-    echo "推送镜像: $target_image"
-    if ! docker push "$target_image" 2>&1 | tee -a "$LOG_FILE"; then
-        log_error "$image" "推送镜像失败"
-        return 1
+    if ! docker push "$target_image"; then
+        echo "ERROR: 镜像推送失败: $target_image" | tee -a failed.log
+        continue
     fi
-    
-    log_success "$image" "$target_image"
-    return 0
-}
 
-# 读取镜像列表
-mapfile -t IMAGES < <(grep -vE '^\s*(#|$)' images.yaml)
-TOTAL=${#IMAGES[@]}
+    # 记录成功日志
+    echo "SUCCESS: 镜像同步完成: $image -> $target_image" | tee -a succeeded.log
 
-# 配置并行度（根据镜像数量动态调整）
-MAX_JOBS=${MAX_JOBS:-4}
-if [ "$TOTAL" -lt "$MAX_JOBS" ]; then
-    MAX_JOBS="$TOTAL"
-fi
+done < images.yaml
 
-# 步骤1: 显示开始信息和并行度
-echo "========================================"
-echo "1. 开始镜像同步任务，最大并行度: $MAX_JOBS"
-echo "========================================"
-log "开始镜像同步任务，最大并行度: $MAX_JOBS"
-
-# 步骤2: 列出需要处理的镜像
-echo ""
-echo "2. 需要处理的镜像列表 (共 $TOTAL 个):"
-echo "========================================"
-for ((i=0; i<${#IMAGES[@]}; i++)); do
-    echo "  $((i+1)). ${IMAGES[$i]}"
-done
-echo "========================================"
-
-# 步骤3: 输出处理过程
-echo ""
-echo "3. 开始处理镜像:"
-echo "========================================"
-
-# 处理每个镜像
-for ((i=0; i<${#IMAGES[@]}; i++)); do
-    image="${IMAGES[$i]}"
-    
-    # 等待直到有可用的并行槽位
-    while [ $(jobs -rp | wc -l) -ge "$MAX_JOBS" ]; do
-        sleep 1
-    done
-    
-    # 处理镜像（在子进程中）
-    ( process_image "$image" ) &
-done
-
-echo "等待所有任务完成..."
-wait
-
-# 步骤4: 打印处理结果
-echo ""
-echo "4. 同步结果汇总:"
-echo "========================================"
-
-# 统计结果
-SUCCESS=$(wc -l < "$SUCCESS_IMAGES_FILE" | tr -d ' ')
-FAILED=$(wc -l < "$FAILED_IMAGES_FILE" | tr -d ' ')
-
-echo "总计处理: $TOTAL 个镜像"
-echo "成功: $SUCCESS 个"
-echo "失败: $FAILED 个"
-echo ""
-
-if [ "$SUCCESS" -gt 0 ]; then
-    echo "成功镜像列表:"
-    cat "$SUCCESS_IMAGES_FILE" | sed 's/^/  • /'
-    echo ""
-fi
-
-if [ "$FAILED" -gt 0 ]; then
-    echo "失败镜像列表:"
-    cat "$FAILED_IMAGES_FILE" | sed 's/^/  • /'
-    echo ""
-    
-    echo "详细错误日志请查看: $ERROR_FILE"
-fi
-
-echo "完整执行日志: $LOG_FILE"
-echo "成功记录: $SUCCESS_FILE"
-if [ -s "$ERROR_FILE" ]; then
-    echo "错误记录: $ERROR_FILE"
-fi
-
-# 清理临时文件
-rm -f "$SUCCESS_IMAGES_FILE" "$FAILED_IMAGES_FILE"
-
-# 根据失败情况退出
-if [ "$FAILED" -gt 0 ]; then
-    echo ""
-    echo "同步完成，但有 $FAILED 个镜像失败"
+# 处理最终结果
+if [ -s failed.log ]; then
+    echo -e "\nERROR: 以下镜像同步失败："
+    cat failed.log
     exit 1
 else
-    echo ""
-    echo "同步完成，所有镜像处理成功！"
+    echo -e "\nSUCCESS: 所有镜像同步完成！"
+    cat succeeded.log
     exit 0
 fi
