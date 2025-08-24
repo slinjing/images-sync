@@ -12,8 +12,8 @@ python:3.9-slim
 python:3.12-alpine
 node:20-alpine
 node:22-bullseye
-openjdk:17-jre-slim
-openjdk:21-alpine
+openjdk:8u342-jre-slim
+openjdk:8u121-alpine
 golang:1.22-alpine
 rust:1.77-slim
 
@@ -25,26 +25,25 @@ postgres:15
 mariadb:11
 redis:7-alpine
 redis:6
-mongodb:7.0
+mongodb/mongodb-community-server:7.0-ubuntu2204
 mongodb:6.0
 
 # Web服务器与反向代理
 nginx:latest
 nginx:alpine
-apache:2.4
+bitnami/apache:latest
 traefik:v3.0
 caddy:2-alpine
 
 # 容器化工具
 docker:27.0-dind
-docker-compose:v2.27
+linuxserver/docker-compose:2.16.0-v2
 
 # 开发与CI/CD工具
-git:latest
-git:2.45
+alpine/git:v2.49.1
 jenkins/jenkins:lts
 gitlab/gitlab-ce:latest
-github/actions-runner:latest
+gitlab/gitlab-runner:bleeding
 
 # 数据存储与缓存
 minio/minio:latest
@@ -55,13 +54,13 @@ kibana:8.14.0
 # 消息队列
 rabbitmq:4-management
 rabbitmq:3.13-management
-kafka:3.7.0
+bitnami/kafka:latest
 zookeeper:3.9
 
 # 监控与日志
 prom/prometheus:v2.45.0
 grafana/grafana:10.4.0
-loki:latest
+grafana/loki:main-4608048
 jaegertracing/jaeger:latest
 
 # 安全工具
