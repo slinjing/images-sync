@@ -1,14 +1,14 @@
 # 基础镜像
 nvidia/cuda:12.4.1-devel-ubuntu22.04
-elymsyr/control_system:latest
+
 
 # 注释示例：以下为未启用的镜像
-# linuxserver/qbittorrent:5.1.2
+linuxserver/qbittorrent:5.1.2
 
 # 数据库相关
-# gvenzl/oracle-xe:21-slim
-# mysql:latest
-# postgis/postgis:16-3.4-alpine
+gvenzl/oracle-xe:21-slim
+mysql:latest
+postgis/postgis:16-3.4-alpine
 
 # 工具/服务镜像
 # lscr.io/linuxserver/grav:latest
