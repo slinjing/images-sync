@@ -1,34 +1,73 @@
-# 基础镜像（生产环境）
-nvidia/cuda:12.4.1-devel-ubuntu22.04
+# 基础操作系统镜像
+alpine:latest
+alpine:3.20
+ubuntu:22.04
+ubuntu:24.04
+debian:12-slim
+centos:7
+rockylinux:9
 
-
-# 工具镜像（注释与镜像对齐，减少空行）
-# linuxserver/qbittorrent:5.1.2
+# 编程语言环境
+python:3.9-slim
+python:3.12-alpine
+node:20-alpine
+node:22-bullseye
+openjdk:17-jre-slim
+openjdk:21-alpine
+golang:1.22-alpine
+rust:1.77-slim
 
 # 数据库镜像
-# gvenzl/oracle-xe:21-slim
-# mysql:latest
-# postgis/postgis:16-3.4-alpine 
+mysql:8.0
+mysql:5.7
+postgres:16-alpine
+postgres:15
+mariadb:11
+redis:7-alpine
+redis:6
+mongodb:7.0
+mongodb:6.0
 
-# 服务镜像
-# lscr.io/linuxserver/grav:latest
-# nginx:latest
-# jaegertracing/jaeger:latest
-# openfga/openfga:latest
-# rabbitmq:4-management
-# valkey/valkey:alpine
+# Web服务器与反向代理
+nginx:latest
+nginx:alpine
+apache:2.4
+traefik:v3.0
+caddy:2-alpine
 
-# 开发环境镜像
-# docker.io/lukemathwalker/cargo-chef:0.1.71-rust-1.88-alpine3.22
-# alpine:3.22
-# docker.io/docker/dockerfile:1
-# node:24-alpine
-# gradle:8-jdk17
-# eclipse-temurin:21
+# 容器化工具
+docker:27.0-dind
+docker-compose:v2.27
 
-# OSRD相关镜像
-# ghcr.io/openrailassociation/osrd-edge/osrd-core:dev
-# ghcr.io/openrailassociation/osrd-edge/osrd-editoast:dev
-# ghcr.io/openrailassociation/osrd-edge/osrd-gateway:dev-front
-# ghcr.io/openrailassociation/osrd-stable/osrd-images:v1.0.0
-# ghcr.io/openrailassociation/osrd-edge/osrd-osrdyne:dev
+# 开发与CI/CD工具
+git:latest
+git:2.45
+jenkins/jenkins:lts
+gitlab/gitlab-ce:latest
+github/actions-runner:latest
+
+# 数据存储与缓存
+minio/minio:latest
+memcached:1.6-alpine
+elasticsearch:8.14.0
+kibana:8.14.0
+
+# 消息队列
+rabbitmq:4-management
+rabbitmq:3.13-management
+kafka:3.7.0
+zookeeper:3.9
+
+# 监控与日志
+prom/prometheus:v2.45.0
+grafana/grafana:10.4.0
+loki:latest
+jaegertracing/jaeger:latest
+
+# 安全工具
+alpine/openssl:latest
+aquasec/trivy:latest
+
+# GPU支持镜像
+nvidia/cuda:12.4.1-devel-ubuntu22.04
+nvidia/cuda:11.8.0-runtime-ubuntu20.04
