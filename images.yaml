@@ -65,6 +65,3 @@ jaegertracing/jaeger:latest
 # 安全工具
 alpine/openssl:latest
 aquasec/trivy:latest
-
-# GPU支持镜像
-nvidia/cuda:12.4.1-devel-ubuntu22.04
