@@ -26,7 +26,6 @@ mariadb:11
 redis:7-alpine
 redis:6
 mongodb/mongodb-community-server:7.0-ubuntu2204
-mongodb:6.0
 
 # Web服务器与反向代理
 nginx:latest
@@ -69,4 +68,3 @@ aquasec/trivy:latest
 
 # GPU支持镜像
 nvidia/cuda:12.4.1-devel-ubuntu22.04
-nvidia/cuda:11.8.0-runtime-ubuntu20.04
