@@ -1,72 +1,88 @@
 #!/bin/bash
-set -euo pipefail
+set -euo pipefail  # 启用严格模式，捕获未定义变量和命令失败
 
 # 检查必要环境变量
 if [ -z "${REGISTRY:-}" ] || [ -z "${NAMESPACE:-}" ]; then
-    echo "ERROR: 环境变量 REGISTRY 和 NAMESPACE 必须设置" >&2
+    echo "ERROR: 环境变量 REGISTRY 和 NAMESPACE 必须设置" >&2  # 错误输出到stderr
     exit 1
 fi
 
-# 初始化日志
+# 初始化日志文件
 > succeeded.log
 > failed.log
 
-# 单个镜像处理函数（封装逻辑，供并行调用）
-process_image() {
-    local image="$1"
+# 处理镜像列表
+while IFS= read -r image; do
     # 清理行内容（去空格、跳过空行和注释）
     image=$(echo "$image" | xargs)
-    [[ -z "$image" || "$image" =~ ^# ]] && return
+    [[ -z "$image" || "$image" =~ ^# ]] && continue
 
-    # 解析镜像名称和标签（兼容带路径的镜像，如ghcr.io/xxx/yyy:tag）
+    # 提取镜像名称和标签（更健壮的正则匹配）
     if [[ "$image" =~ ^([^:]+)(:([^:]+))?$ ]]; then
-        local image_full_name="${BASH_REMATCH[1]}"
-        local image_tag="${BASH_REMATCH[3]:-latest}"
-        local image_name=$(basename "$image_full_name")  # 提取短名称
+        image_name="${BASH_REMATCH[1]}"
+        image_tag="${BASH_REMATCH[3]:-latest}"  # 默认为latest
     else
-        echo "ERROR: 无效镜像格式: $image" | tee -a failed.log
-        return
+        echo "ERROR: 镜像格式无效: $image" | tee -a failed.log
+        continue
     fi
 
-    local target_image="${REGISTRY}/${NAMESPACE}/${image_name}:${image_tag}"
-    echo "开始处理: $image -> $target_image"
+    # 提取镜像短名称（处理带路径的情况，如ghcr.io/xxx/yyy -> yyy）
+    short_name=$(basename "$image_name")
 
-    # 拉取镜像（带快速失败重试）
-    if ! docker pull "$image"; then
-        echo "ERROR: 拉取失败: $image" | tee -a failed.log
-        return
-    fi
+    # 目标镜像地址
+    target_image="${REGISTRY}/${NAMESPACE}/${short_name}:${image_tag}"
+
+    echo -e "\n===== 处理镜像: $image ====="
+    echo "目标地址: $target_image"
+
+    # 拉取镜像（带重试机制）
+    retries=3
+    for ((i=1; i<=retries; i++)); do
+        if docker pull "$image"; then
+            break
+        else
+            if [ $i -eq $retries ]; then
+                echo "ERROR: 镜像拉取失败（重试$retries次）: $image" | tee -a failed.log
+                continue 2  # 跳过当前镜像
+            fi
+            echo "WARN: 拉取失败，第$i次重试..."
+            sleep 2
+        fi
+    done
 
     # 打标签
     if ! docker tag "$image" "$target_image"; then
-        echo "ERROR: 打标签失败: $image -> $target_image" | tee -a failed.log
-        return
+        echo "ERROR: 镜像打标签失败: $image -> $target_image" | tee -a failed.log
+        continue
     fi
 
-    # 推送镜像
-    if ! docker push "$target_image"; then
-        echo "ERROR: 推送失败: $target_image" | tee -a failed.log
-        return
-    fi
+    # 推送镜像（带重试机制）
+    for ((i=1; i<=retries; i++)); do
+        if docker push "$target_image"; then
+            break
+        else
+            if [ $i -eq $retries ]; then
+                echo "ERROR: 镜像推送失败（重试$retries次）: $target_image" | tee -a failed.log
+                continue 2
+            fi
+            echo "WARN: 推送失败，第$i次重试..."
+            sleep 2
+        fi
+    done
 
-    echo "SUCCESS: 同步完成: $target_image" | tee -a succeeded.log
-}
+    # 记录成功日志
+    echo "SUCCESS: 镜像同步完成: $image -> $target_image" | tee -a succeeded.log
 
-# 导出函数（供parallel调用）
-export -f process_image
-export REGISTRY NAMESPACE  # 传递环境变量到子进程
+done < images.yaml
 
-# 并行处理镜像（-j 4 表示同时处理4个，可根据镜像大小调整）
-cat images.yaml | grep -v '^#\|^$' | xargs -I {} echo {} | parallel -j 4 process_image {}
-
-# 输出结果
+# 输出最终结果
 echo -e "\n===== 同步结果 ====="
 if [ -s failed.log ]; then
-    echo "❌ 失败列表:"
+    echo "❌ 部分镜像同步失败:"
     cat failed.log
     exit 1
 else
-    echo "✅ 全部成功:"
+    echo "✅ 所有镜像同步成功:"
     cat succeeded.log
     exit 0
 fi
