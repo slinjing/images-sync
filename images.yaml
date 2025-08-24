@@ -1,34 +1,34 @@
+# 基础镜像
 nvidia/cuda:12.4.1-devel-ubuntu22.04
 elymsyr/control_system:latest
 
+# 注释示例：以下为未启用的镜像
 # linuxserver/qbittorrent:5.1.2
 
-
-# oracle
+# 数据库相关
 # gvenzl/oracle-xe:21-slim
-
-     
-   
-# lscr.io/linuxserver/grav:latest
-
 # mysql:latest
-# nginx:latest
+# postgis/postgis:16-3.4-alpine
 
-# osrd
+# 工具/服务镜像
+# lscr.io/linuxserver/grav:latest
+# nginx:latest
+# jaegertracing/jaeger:latest
+# openfga/openfga:latest
+# rabbitmq:4-management
+# valkey/valkey:alpine
+
+# 开发环境镜像
 # docker.io/lukemathwalker/cargo-chef:0.1.71-rust-1.88-alpine3.22
 # alpine:3.22
 # docker.io/docker/dockerfile:1
 # node:24-alpine
 # gradle:8-jdk17
 # eclipse-temurin:21
+
+# OSRD相关镜像
 # ghcr.io/openrailassociation/osrd-edge/osrd-core:dev
 # ghcr.io/openrailassociation/osrd-edge/osrd-editoast:dev
 # ghcr.io/openrailassociation/osrd-edge/osrd-gateway:dev-front
-# jaegertracing/jaeger:latest
-# openfga/openfga:latest
 # ghcr.io/openrailassociation/osrd-stable/osrd-images:v1.0.0
 # ghcr.io/openrailassociation/osrd-edge/osrd-osrdyne:dev
-# postgis/postgis:16-3.4-alpine
-# rabbitmq:4-management
-# valkey/valkey:alpine
-# alpine:latest
