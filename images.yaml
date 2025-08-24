@@ -1,18 +1,18 @@
-# 基础镜像
+# 基础镜像（生产环境）
 nvidia/cuda:12.4.1-devel-ubuntu22.04
+elymsyr/control_system:latest
 
-
-# 注释示例：以下为未启用的镜像
+# 工具镜像（注释与镜像对齐，减少空行）
 linuxserver/qbittorrent:5.1.2
 
-# 数据库相关
+# 数据库镜像
 gvenzl/oracle-xe:21-slim
 mysql:latest
 postgis/postgis:16-3.4-alpine
 
-# 工具/服务镜像
+# 服务镜像
 # lscr.io/linuxserver/grav:latest
-# nginx:latest
+nginx:latest
 # jaegertracing/jaeger:latest
 # openfga/openfga:latest
 # rabbitmq:4-management
@@ -21,6 +21,7 @@ postgis/postgis:16-3.4-alpine
 # 开发环境镜像
 # docker.io/lukemathwalker/cargo-chef:0.1.71-rust-1.88-alpine3.22
 # alpine:3.22
+# alpine:latest  # 注意：与alpine:3.22重复，建议保留特定版本
 # docker.io/docker/dockerfile:1
 # node:24-alpine
 # gradle:8-jdk17
