@@ -1,116 +1,43 @@
-name: Image Synchronization
+name: Image Sync
 
 on:
   push:
     branches: [ main ]
-    paths:
-    - 'images.yaml'
+    paths: [ 'images.yaml' ]  # 仅当镜像列表变更时触发
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
-  push-image:
+  sync-images:
     runs-on: ubuntu-latest
-    outputs:
-      summary: ${{ steps.sync-images.outputs.summary }}
-      success_count: ${{ steps.sync-images.outputs.success_count }}
-      failed_count: ${{ steps.sync-images.outputs.failed_count }}
-    
+    timeout-minutes: 30  # 防止无限等待
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4  # 使用最新版本
 
-    - name: Login to Aliyun Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ secrets.REGISTRY }}  
-        username: ${{ secrets.REGISTRY_USER }} 
-        password: ${{ secrets.REGISTRY_PASSWORD }} 
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3  # 优化Docker环境
 
-    - name: Sync Images
-      id: sync-images
-      run: |
-        chmod +x ./app.sh
-        # 执行脚本并捕获输出
-        OUTPUT=$(./app.sh 2>&1)
-        EXIT_CODE=$?
-        
-        # 提取汇总信息
-        SUMMARY=$(echo "$OUTPUT" | grep -A 10 "4. 同步结果汇总:" || echo "无法提取汇总信息")
-        SUCCESS_COUNT=$(echo "$SUMMARY" | grep "成功:" | awk '{print $2}' || echo "0")
-        FAILED_COUNT=$(echo "$SUMMARY" | grep "失败:" | awk '{print $2}' || echo "0")
-        
-        # 设置输出变量
-        echo "summary<<EOF" >> $GITHUB_OUTPUT
-        echo "$SUMMARY" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-        
-        echo "success_count=$SUCCESS_COUNT" >> $GITHUB_OUTPUT
-        echo "failed_count=$FAILED_COUNT" >> $GITHUB_OUTPUT
-        
-        # 输出完整日志
-        echo "$OUTPUT"
-        exit $EXIT_CODE
-      env:
-        REGISTRY: ${{ secrets.REGISTRY }}
-        NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
+      - name: Login to Registry
+        uses: docker/login-action@v3  # 使用最新版本
+        with:
+          registry: ${{ secrets.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    # 添加成功后的通知步骤
-    - name: Send success notification to WeChat
-      if: success()
-      run: |
-        # 美化消息格式
-        MESSAGE="🏷️ **✅ 镜像同步成功**
-        
-        📦 **仓库信息**
-        • 仓库: ${{ github.repository }}
-        • 分支: ${{ github.ref }}
-        • 提交者: ${{ github.actor }}
-        • 提交信息: ${{ github.event.head_commit.message }}
-        
-        ⏰ **执行时间**
-        • $(date +'%Y-%m-%d %H:%M:%S')
-        
-        📊 **同步结果**
-        ${{ steps.sync-images.outputs.summary }}
-        
-        🔗 **详情链接**
-        • https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        
-        # 发送到微信
-        curl -X POST \
-          -d "title=✅ 镜像同步成功 (${{ steps.sync-images.outputs.success_count }}成功/${{ steps.sync-images.outputs.failed_count }}失败)" \
-          -d "desp=$MESSAGE" \
-          "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
-
-  # 添加专门的通知job，处理失败情况
-  notify-failure:
-    runs-on: ubuntu-latest
-    needs: push-image
-    if: failure()  # 只有push-image失败时才运行
-    steps:
-      - name: Send failure notification to WeChat
+      - name: Sync Images
         run: |
-          # 美化消息格式
-          MESSAGE="🏷️ **❌ 镜像同步失败**
-          
-          📦 **仓库信息**
-          • 仓库: ${{ github.repository }}
-          • 分支: ${{ github.ref }}
-          • 提交者: ${{ github.actor }}
-          • 提交信息: ${{ github.event.head_commit.message }}
-          
-          ⏰ **执行时间**
-          • $(date +'%Y-%m-%d %H:%M:%S')
-          
-          📊 **同步结果**
-          ${{ needs.push-image.outputs.summary }}
-          
-          🐛 **错误信息**
-          • 请查看GitHub Actions日志获取详细错误信息
-          
-          🔗 **详情链接**
-          • https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          
-          curl -X POST \
-            -d "title=❌ 镜像同步失败 (${{ needs.push-image.outputs.success_count }}成功/${{ needs.push-image.outputs.failed_count }}失败)" \
-            -d "desp=$MESSAGE" \
-            "https://sctapi.ftqq.com/${{ secrets.SERVER_JIAN_SENDKEY }}.send"
+          chmod +x ./app.sh
+          ./app.sh
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
+
+      - name: Upload Logs
+        if: always()  # 无论成功失败都上传日志
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-logs
+          path: |
+            succeeded.log
+            failed.log
