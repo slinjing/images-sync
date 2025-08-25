@@ -1,6 +1,6 @@
 # freepbx
-# izdock/izpbx-asterisk:18.15.11
-# mariadb:10.5.9
+docker.io/mariadb:10.11.11
+docker.io/izdock/izpbx-asterisk:20.16.20
 
 # 基础操作系统镜像
 # alpine:latest
