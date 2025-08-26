@@ -1,3 +1,10 @@
+# ragflow
+elasticsearch:8.11.3
+quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
+mysql:8.0.39
+valkey/valkey:8
+
+
 # freepbx
 # docker.io/mariadb:10.11.11
 # docker.io/izdock/izpbx-asterisk:20.16.20
@@ -5,7 +12,7 @@
 # 基础操作系统镜像
 # alpine:latest
 # alpine:3.20
-ubuntu:20.04
+# ubuntu:20.04
 # ubuntu:22.04
 # ubuntu:24.04
 # debian:12-slim
