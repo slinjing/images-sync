@@ -1,8 +1,15 @@
+# immich
+ghcr.io/immich-app/immich-server:release
+ghcr.io/immich-app/immich-machine-learning:release
+docker.io/valkey/valkey:8-bookworm@sha256:a137a2b60aca1a75130022d6bb96af423fefae4eb55faf395732db3544803280
+ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:32324a2f41df5de9efe1af166b7008c3f55646f8d0e00d9550c16c9822366b4a
+
+
 # ragflow
-elasticsearch:8.11.3
-quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
-mysql:8.0.39
-valkey/valkey:8
+# elasticsearch:8.11.3
+# quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
+# mysql:8.0.39
+# valkey/valkey:8
 
 
 # freepbx
