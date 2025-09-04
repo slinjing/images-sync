@@ -1,5 +1,8 @@
+# docker-proxy
+mirhub/mirror-hub:latest
+
 # Minecraft
-itzg/minecraft-server
+# itzg/minecraft-server
 
 # immich
 # ghcr.io/immich-app/immich-server:release
