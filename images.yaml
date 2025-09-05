@@ -1,5 +1,7 @@
+capysix/greenhouse-ae:latest
+
 # docker-proxy
-mirhub/mirror-hub:latest
+# mirhub/mirror-hub:latest
 
 # Minecraft
 # itzg/minecraft-server
