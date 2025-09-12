@@ -1,6 +1,7 @@
-jellyfin/jellyfin:latest
-linuxserver/jackett:latest
-linuxserver/qbittorrent:latest
+emby/embyserver:latest
+# jellyfin/jellyfin:latest
+# linuxserver/jackett:latest
+# linuxserver/qbittorrent:latest
 
 # capysix/greenhouse-ae:latest
 
