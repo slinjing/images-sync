@@ -1,5 +1,6 @@
-# moontv
-ghcr.io/senshinya/moontv:latest
+jellyfin/jellyfin:latest
+linuxserver/jackett:latest
+linuxserver/qbittorrent:latest
 
 # capysix/greenhouse-ae:latest
 
