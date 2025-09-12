@@ -1,7 +1,10 @@
+# moontv
+ghcr.io/senshinya/moontv:latest
+
 # capysix/greenhouse-ae:latest
 
 # docker-proxy
-mirhub/mirror-gcr:latest
+# mirhub/mirror-gcr:latest
 # mirhub/mirror-hub:latest
 
 # Minecraft
