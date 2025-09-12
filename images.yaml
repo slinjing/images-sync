@@ -1,5 +1,5 @@
 emby/embyserver:latest
-# jellyfin/jellyfin:latest
+jellyfin/jellyfin
 # linuxserver/jackett:latest
 # linuxserver/qbittorrent:latest
 
