@@ -1,7 +1,10 @@
-emby/embyserver:latest
+# media-server
+lscr.io/linuxserver/prowlarr:develop
+binhex/arch-qbittorrentvpn
+lscr.io/linuxserver/sonarr
+lscr.io/linuxserver/radarr
 jellyfin/jellyfin
-# linuxserver/jackett:latest
-# linuxserver/qbittorrent:latest
+lscr.io/linuxserver/bazarr
 
 # capysix/greenhouse-ae:latest
 
