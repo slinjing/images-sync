@@ -1,4 +1,6 @@
-# media-server
+aliuq/readest:latest
+
+## media-server
 # lscr.io/linuxserver/prowlarr:develop
 # binhex/arch-qbittorrentvpn
 # lscr.io/linuxserver/sonarr
@@ -65,7 +67,7 @@
 # mariadb:11
 # redis:7-alpine
 # redis:6
-redis:6.0.8
+# redis:6.0.8
 # mongodb/mongodb-community-server:7.0-ubuntu2204
 
 # Web服务器与反向代理
