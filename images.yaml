@@ -1,4 +1,9 @@
-aliuq/readest:latest
+## easysoft/zentao
+easysoft/zentao:latest
+easysoft/zentao:21.7.5
+
+
+# aliuq/readest:latest
 
 ## media-server
 # lscr.io/linuxserver/prowlarr:develop
