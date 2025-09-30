@@ -70,19 +70,23 @@
 # 数据库镜像
 # mysql:8.0
 # mysql:5.7
-postgres:16
+
 # postgres:16-alpine
 # postgres:15
+# postgres:16
+
 # mariadb:10.6.7
 # mariadb:11
+# mongodb/mongodb-community-server:7.0-ubuntu2204
+
 # redis:7-alpine
 # redis:6
 # redis:6.0.8
-# mongodb/mongodb-community-server:7.0-ubuntu2204
 
 # Web服务器与反向代理
 # nginx:latest
 # nginx:alpine
+
 # bitnami/apache:latest
 # traefik:v3.0
 # caddy:2-alpine
