@@ -1,5 +1,8 @@
+## stirling-pdf
+docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+
 ## music_tag_web
-xhongc/music_tag_web:latest
+# xhongc/music_tag_web:latest
 
 ## n8n
 # docker.n8n.io/n8nio/n8n
