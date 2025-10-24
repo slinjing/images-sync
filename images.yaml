@@ -1,5 +1,22 @@
+## greenbone-community-edition
+registry.community.greenbone.net/community/vulnerability-tests
+registry.community.greenbone.net/community/notus-data
+registry.community.greenbone.net/community/scap-data
+registry.community.greenbone.net/community/cert-bund-data
+registry.community.greenbone.net/community/dfn-cert-data
+registry.community.greenbone.net/community/data-objects
+registry.community.greenbone.net/community/report-formats
+registry.community.greenbone.net/community/gpg-data
+registry.community.greenbone.net/community/redis-server
+registry.community.greenbone.net/community/pg-gvm:stable
+registry.community.greenbone.net/community/gvmd:stable
+registry.community.greenbone.net/community/gsa:stable
+registry.community.greenbone.net/community/openvas-scanner:stable
+registry.community.greenbone.net/community/ospd-openvas:stable
+registry.community.greenbone.net/community/gvm-tools
+
 ## stirling-pdf
-docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+# docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
 
 ## music_tag_web
 # xhongc/music_tag_web:latest
