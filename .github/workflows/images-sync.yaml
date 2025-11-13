@@ -16,25 +16,7 @@ jobs:
       contents: read  # 最小权限原则
       actions: read
 
-    steps:
-      # 新增步骤：清理冗余资源，释放磁盘空间（核心）
-      - name: Free up disk space (Ubuntu)
-        run: |
-          # 1. 清理 Docker 所有无用资源（镜像、容器、卷、缓存）
-          docker system prune -a --volumes -f
-          
-          # 2. 删除 Runner 预安装的大型无用工具（释放 5-15GB）
-          sudo rm -rf /usr/share/dotnet  # .NET 运行时（~3GB）
-          sudo rm -rf /usr/local/lib/android  # Android SDK（~10GB）
-          sudo rm -rf /opt/hostedtoolcache/go  # Go 环境（~2GB）
-          sudo rm -rf /var/cache/apt/archives/*  # APT 缓存（~1GB）
-          
-          # 3. 验证清理效果（可选，方便排查）
-          echo "=== 清理后磁盘空间 ==="
-          df -h
-          echo "=== 清理后 Docker 空间 ==="
-          docker system df
-          
+    steps:   
       - name: Checkout Code
         uses: actions/checkout@v4  # 升级到最新版本（安全更新）
 
