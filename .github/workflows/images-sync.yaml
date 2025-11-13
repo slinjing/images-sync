@@ -17,19 +17,6 @@ jobs:
       actions: read
 
     steps: 
-      # 最大化磁盘空间
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 2048  # 系统根目录保留 2GB 空间（避免系统崩溃）
-          swap-size-mb: 128      # 启用 128MB 交换分区（可选，缓解内存压力）
-          remove-dotnet: 'true'  # 删除 .NET 运行时
-          remove-haskell: 'true' # 删除 Haskell 环境
-          remove-android: 'true' # 删除 Android SDK
-          remove-codeql: 'true'  # 删除 CodeQL 工具
-          remove-go: 'true'      # 新增：删除 Go 环境
-          build-mount-path: '/var/lib/docker/' # 将 Docker 存储目录挂载到扩容空间
-
       - name: Checkout Code
         uses: actions/checkout@v4  # 升级到最新版本（安全更新）
 
