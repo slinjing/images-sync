@@ -1,27 +1,19 @@
 ## siyuan
-# b3log/siyuan
+b3log/siyuan
 
 ## xianyu-replay-fixed
-# crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
+crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
 
 ## zfile
-# zhaojun1998/zfile:latest
+zhaojun1998/zfile:latest
 
 ## cloudreve
-# cloudreve/cloudreve:latest
-# postgres:17
-# redis:latest
+cloudreve/cloudreve:latest
 
 ## logging
 # docker.elastic.co/elasticsearch/elasticsearch:8.9.0
 # docker.elastic.co/logstash/logstash:8.9.0
 # docker.elastic.co/kibana/kibana:8.9.0
-
-## monitoring
-# prom/prometheus:latest
-# prom/alertmanager:latest
-# grafana/grafana:latest
-# jertel/elastalert2:latest
 
 ## greenbone-community-edition
 # registry.community.greenbone.net/community/vulnerability-tests
@@ -41,10 +33,10 @@
 # registry.community.greenbone.net/community/gvm-tools
 
 ## stirling-pdf
-# docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
 
 ## music_tag_web
-# xhongc/music_tag_web:latest
+xhongc/music_tag_web:latest
 
 ## n8n
 # docker.n8n.io/n8nio/n8n
@@ -52,10 +44,9 @@
 ## easysoft/zentao
 # easysoft/zentao:21.7.4
 # easysoft/zentao:21.7.5
-# easysoft/zentao:latest
+easysoft/zentao:latest
 
-
-# aliuq/readest:latest
+aliuq/readest:latest
 
 ## media-server
 # lscr.io/linuxserver/prowlarr:develop
@@ -65,11 +56,11 @@
 # jellyfin/jellyfin
 # lscr.io/linuxserver/bazarr
 
-# capysix/greenhouse-ae:latest
+capysix/greenhouse-ae:latest
 
 # docker-proxy
-# mirhub/mirror-gcr:latest
-# mirhub/mirror-hub:latest
+mirhub/mirror-gcr:latest
+mirhub/mirror-hub:latest
 
 # Minecraft
 # itzg/minecraft-server
@@ -80,20 +71,18 @@
 # docker.io/valkey/valkey:8-bookworm
 # ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
 
-
 # ragflow
 # elasticsearch:8.11.3
 # quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
 # mysql:8.0.39
 # valkey/valkey:8
 
-
 # freepbx
 # docker.io/mariadb:10.11.11
 # docker.io/izdock/izpbx-asterisk:20.16.20
 
-# 基础操作系统镜像
-# alpine:latest
+########################  基础操作系统镜像 ########################  
+alpine:latest
 # alpine:3.20
 # ubuntu:20.04
 # ubuntu:22.04
@@ -103,7 +92,7 @@
 # rockylinux/rockylinux:8
 # rockylinux/rockylinux:9
 
-# 编程语言环境
+########################  编程语言环境 ########################  
 # python:3.9-slim
 # python:3.12-alpine
 # node:16-alpine
@@ -115,62 +104,73 @@
 # golang:1.22-alpine
 # rust:1.77-slim
 
-# 数据库镜像
-# influxdb:latest
+########################  Web 服务器与反向代理 ######################## 
+nginx:latest
+# nginx:alpine
+# nginx:1.23.0
 
+bitnami/apache:latest
+# traefik:v3.0
+# caddy:2-alpine
+
+########################  容器化工具 ######################## 
+# docker:27.0-dind
+# linuxserver/docker-compose:2.16.0-v2
+
+########################  开发与CI/CD工具 ######################## 
+alpine/git:latest
+# alpine/git:v2.49.1
+jenkins/jenkins:latest
+# jenkins/jenkins:lts
+gitlab/gitlab-ce:latest
+gitlab/gitlab-runner:latest
+# gitlab/gitlab-runner:bleeding
+
+######################## 数据存储与缓存 ########################
+influxdb:latest
+
+mysql:latest
 # mysql:8.0
 # mysql:5.7
 
+postgres:latest
 # postgres:16-alpine
 # postgres:15
 # postgres:16
+# postgres:17
 
-# mariadb:10.6.7
-# mariadb:11
-# mongodb/mongodb-community-server:7.0-ubuntu2204
-
+redis:latest
 # redis:7-alpine
 # redis:6
 # redis:6.0.8
 
-# Web服务器与反向代理
-# nginx:latest
-# nginx:alpine
-
-# bitnami/apache:latest
-# traefik:v3.0
-# caddy:2-alpine
-
-# 容器化工具
-# docker:27.0-dind
-# linuxserver/docker-compose:2.16.0-v2
-
-# 开发与CI/CD工具
-# alpine/git:v2.49.1
-# jenkins/jenkins:lts
-# gitlab/gitlab-ce:latest
-# gitlab/gitlab-runner:bleeding
-
-# 数据存储与缓存
-# minio/minio:latest
+minio/minio:latest
 # memcached:1.6-alpine
 # elasticsearch:8.14.0
 # kibana:8.14.0
 
-# 消息队列
+mariadb:latest
+# mariadb:10.6.7
+# mariadb:11
+# mongodb/mongodb-community-server:7.0-ubuntu2204
+
+######################## 消息队列 ######################## 
 # rabbitmq:4-management
 # rabbitmq:3.13-management
-# bitnami/kafka:latest
+bitnami/kafka:latest
 # zookeeper:3.9
 
-# 监控与日志
+########################  监控与日志 ######################## 
+prom/alertmanager:latest
+jertel/elastalert2:latest
 google/cadvisor:latest
+prom/prometheus:latest
 # prom/prometheus:v2.45.0
 grafana/grafana:latest
 # grafana/grafana:10.4.0
 # grafana/loki:main-4608048
-# jaegertracing/jaeger:latest
+jaegertracing/jaeger:latest
 
-# 安全工具
-# alpine/openssl:latest
-# aquasec/trivy:latest
+########################  安全工具 ######################## 
+alpine/openssl:latest
+aquasec/trivy:latest
