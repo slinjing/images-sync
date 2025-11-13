@@ -116,7 +116,7 @@
 # rust:1.77-slim
 
 # 数据库镜像
-influxdb:latest
+# influxdb:latest
 
 # mysql:8.0
 # mysql:5.7
@@ -164,9 +164,9 @@ influxdb:latest
 # zookeeper:3.9
 
 # 监控与日志
-cadvisor
+google/cadvisor:latest
 # prom/prometheus:v2.45.0
-grafana:latest
+grafana/grafana:latest
 # grafana/grafana:10.4.0
 # grafana/loki:main-4608048
 # jaegertracing/jaeger:latest
