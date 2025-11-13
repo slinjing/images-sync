@@ -1,3 +1,8 @@
+## cloudreve
+cloudreve/cloudreve:latest
+postgres:17
+redis:latest
+
 ## logging
 docker.elastic.co/elasticsearch/elasticsearch:8.9.0
 docker.elastic.co/logstash/logstash:8.9.0
