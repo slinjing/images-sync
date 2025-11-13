@@ -1,5 +1,5 @@
 ## siyuan
-b3log/siyuan
+# b3log/siyuan
 
 ## xianyu-replay-fixed
 # crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
@@ -116,6 +116,8 @@ b3log/siyuan
 # rust:1.77-slim
 
 # 数据库镜像
+influxdb:latest
+
 # mysql:8.0
 # mysql:5.7
 
@@ -162,7 +164,9 @@ b3log/siyuan
 # zookeeper:3.9
 
 # 监控与日志
+cadvisor
 # prom/prometheus:v2.45.0
+grafana:latest
 # grafana/grafana:10.4.0
 # grafana/loki:main-4608048
 # jaegertracing/jaeger:latest
