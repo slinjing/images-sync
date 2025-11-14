@@ -1,14 +1,38 @@
-## siyuan
-b3log/siyuan
+####################################################### latest #######################################################
+# docker.n8n.io/n8nio/n8n
+# nginx:latest
+# zhaojun1998/zfile:latest
+# b3log/siyuan
+# crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
+# cloudreve/cloudreve:latest
+# docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+# xhongc/music_tag_web:latest
+# easysoft/zentao:latest
+# aliuq/readest:latest
+# capysix/greenhouse-ae:latest
+# mirhub/mirror-gcr:latest
+# mirhub/mirror-hub:latest
+# alpine:latest
+# alpine/openssl:latest
+# aquasec/trivy:latest
+# jaegertracing/jaeger:latest
+# grafana/grafana:latest
+# prom/alertmanager:latest
+# jertel/elastalert2:latest
+# google/cadvisor:latest
+# prom/prometheus:latest
+# mariadb:latest
+# minio/minio:latest
+# redis:latest
+# postgres:latest
+# influxdb:latest
+# gitlab/gitlab-ce:latest
+# gitlab/gitlab-runner:latest
+# jenkins/jenkins:latest
+# alpine/git:latest
+# mysql:latest
+########################################################################################################################
 
-## xianyu-replay-fixed
-crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
-
-## zfile
-zhaojun1998/zfile:latest
-
-## cloudreve
-cloudreve/cloudreve:latest
 
 ## logging
 # docker.elastic.co/elasticsearch/elasticsearch:8.9.0
@@ -32,21 +56,9 @@ cloudreve/cloudreve:latest
 # registry.community.greenbone.net/community/ospd-openvas:stable
 # registry.community.greenbone.net/community/gvm-tools
 
-## stirling-pdf
-docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-
-## music_tag_web
-xhongc/music_tag_web:latest
-
-## n8n
-# docker.n8n.io/n8nio/n8n
-
 ## easysoft/zentao
 # easysoft/zentao:21.7.4
 # easysoft/zentao:21.7.5
-easysoft/zentao:latest
-
-aliuq/readest:latest
 
 ## media-server
 # lscr.io/linuxserver/prowlarr:develop
@@ -55,12 +67,6 @@ aliuq/readest:latest
 # lscr.io/linuxserver/radarr
 # jellyfin/jellyfin
 # lscr.io/linuxserver/bazarr
-
-capysix/greenhouse-ae:latest
-
-# docker-proxy
-mirhub/mirror-gcr:latest
-mirhub/mirror-hub:latest
 
 # Minecraft
 # itzg/minecraft-server
@@ -82,7 +88,6 @@ mirhub/mirror-hub:latest
 # docker.io/izdock/izpbx-asterisk:20.16.20
 
 ########################  基础操作系统镜像 ########################  
-alpine:latest
 # alpine:3.20
 # ubuntu:20.04
 # ubuntu:22.04
@@ -105,11 +110,9 @@ alpine:latest
 # rust:1.77-slim
 
 ########################  Web 服务器与反向代理 ######################## 
-nginx:latest
 # nginx:alpine
 # nginx:1.23.0
 
-bitnami/apache:latest
 # traefik:v3.0
 # caddy:2-alpine
 
@@ -118,38 +121,27 @@ bitnami/apache:latest
 # linuxserver/docker-compose:2.16.0-v2
 
 ########################  开发与CI/CD工具 ######################## 
-alpine/git:latest
 # alpine/git:v2.49.1
-jenkins/jenkins:latest
 # jenkins/jenkins:lts
-gitlab/gitlab-ce:latest
-gitlab/gitlab-runner:latest
 # gitlab/gitlab-runner:bleeding
 
 ######################## 数据存储与缓存 ########################
-influxdb:latest
-
-mysql:latest
 # mysql:8.0
 # mysql:5.7
 
-postgres:latest
 # postgres:16-alpine
 # postgres:15
 # postgres:16
 # postgres:17
 
-redis:latest
 # redis:7-alpine
 # redis:6
 # redis:6.0.8
 
-minio/minio:latest
 # memcached:1.6-alpine
 # elasticsearch:8.14.0
 # kibana:8.14.0
 
-mariadb:latest
 # mariadb:10.6.7
 # mariadb:11
 # mongodb/mongodb-community-server:7.0-ubuntu2204
@@ -157,20 +149,9 @@ mariadb:latest
 ######################## 消息队列 ######################## 
 # rabbitmq:4-management
 # rabbitmq:3.13-management
-bitnami/kafka:latest
 # zookeeper:3.9
 
 ########################  监控与日志 ######################## 
-prom/alertmanager:latest
-jertel/elastalert2:latest
-google/cadvisor:latest
-prom/prometheus:latest
 # prom/prometheus:v2.45.0
-grafana/grafana:latest
 # grafana/grafana:10.4.0
 # grafana/loki:main-4608048
-jaegertracing/jaeger:latest
-
-########################  安全工具 ######################## 
-alpine/openssl:latest
-aquasec/trivy:latest
