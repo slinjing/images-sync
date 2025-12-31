@@ -1,9 +1,18 @@
 ####################################################### latest #######################################################
-jellyfin/jellyfin:latest
-linuxserver/radarr:latest
-linuxserver/sonarr:latest
-linuxserver/prowlarr:latest
-linuxserver/qbittorrent:latest
+linuxserver/heimdall:latest
+flaresolverr/flaresolverr:latest
+linuxserver/prowlarr:develop
+luckypuppy514/jproxy:latest
+fallenbagel/jellyseerr:develop
+linuxserver/sonarr:develop
+allanpk716/chinesesubfinder:latest-lite
+emby/embyserver:latest
+
+# jellyfin/jellyfin:latest
+# linuxserver/radarr:latest
+# linuxserver/sonarr:latest
+# linuxserver/prowlarr:latest
+# linuxserver/qbittorrent:latest
 
 # docker.n8n.io/n8nio/n8n
 # nginx:latest
