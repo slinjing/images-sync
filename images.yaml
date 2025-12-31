@@ -1,12 +1,15 @@
 ####################################################### latest #######################################################
-linuxserver/heimdall:latest
-flaresolverr/flaresolverr:latest
-linuxserver/prowlarr:develop
-luckypuppy514/jproxy:latest
-fallenbagel/jellyseerr:develop
-linuxserver/sonarr:develop
-allanpk716/chinesesubfinder:latest-lite
-emby/embyserver:latest
+linuxserver/jackett:latest
+linuxserver/bazarr:latest
+
+# linuxserver/heimdall:latest
+# flaresolverr/flaresolverr:latest
+# linuxserver/prowlarr:develop
+# luckypuppy514/jproxy:latest
+# fallenbagel/jellyseerr:develop
+# linuxserver/sonarr:develop
+# allanpk716/chinesesubfinder:latest-lite
+# emby/embyserver:latest
 
 # jellyfin/jellyfin:latest
 # linuxserver/radarr:latest
