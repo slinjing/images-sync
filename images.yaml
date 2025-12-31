@@ -1,39 +1,37 @@
 ####################################################### latest #######################################################
-# docker.n8n.io/n8nio/n8n
-# nginx:latest
-# zhaojun1998/zfile:latest
-# b3log/siyuan
-# crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
-# cloudreve/cloudreve:latest
-# docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-# xhongc/music_tag_web:latest
-# easysoft/zentao:latest
-# aliuq/readest:latest
-# capysix/greenhouse-ae:latest
-# mirhub/mirror-gcr:latest
-# mirhub/mirror-hub:latest
-# alpine:latest
-# alpine/openssl:latest
-# aquasec/trivy:latest
-# jaegertracing/jaeger:latest
-# grafana/grafana:latest
-# prom/alertmanager:latest
-# jertel/elastalert2:latest
-# google/cadvisor:latest
-# prom/prometheus:latest
-# mariadb:latest
-# minio/minio:latest
-# redis:latest
-# postgres:latest
-# influxdb:latest
-# gitlab/gitlab-ce:latest
-# gitlab/gitlab-runner:latest
-# jenkins/jenkins:latest
-# alpine/git:latest
-# mysql:latest
+docker.n8n.io/n8nio/n8n
+nginx:latest
+zhaojun1998/zfile:latest
+b3log/siyuan
+crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
+cloudreve/cloudreve:latest
+docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+xhongc/music_tag_web:latest
+easysoft/zentao:latest
+aliuq/readest:latest
+capysix/greenhouse-ae:latest
+mirhub/mirror-gcr:latest
+mirhub/mirror-hub:latest
+alpine:latest
+alpine/openssl:latest
+aquasec/trivy:latest
+jaegertracing/jaeger:latest
+grafana/grafana:latest
+prom/alertmanager:latest
+jertel/elastalert2:latest
+google/cadvisor:latest
+prom/prometheus:latest
+mariadb:latest
+minio/minio:latest
+redis:latest
+postgres:latest
+influxdb:latest
+gitlab/gitlab-ce:latest
+gitlab/gitlab-runner:latest
+jenkins/jenkins:latest
+alpine/git:latest
+mysql:latest
 ########################################################################################################################
-
-ghcr.io/senshinya/moontv:latest
 
 ## logging
 # docker.elastic.co/elasticsearch/elasticsearch:8.9.0
