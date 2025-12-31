@@ -1,7 +1,7 @@
 ####################################################### latest #######################################################
-# linuxserver/jackett:latest
+linuxserver/jackett:0.24.645
 # linuxserver/bazarr:latest
-fallenbagel/jellyseerr:latest
+# fallenbagel/jellyseerr:latest
 
 # linuxserver/heimdall:latest
 # flaresolverr/flaresolverr:latest
