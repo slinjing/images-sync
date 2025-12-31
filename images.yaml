@@ -33,6 +33,7 @@
 # mysql:latest
 ########################################################################################################################
 
+ghcr.io/senshinya/moontv:latest
 
 ## logging
 # docker.elastic.co/elasticsearch/elasticsearch:8.9.0
