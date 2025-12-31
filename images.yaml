@@ -1,6 +1,7 @@
 ####################################################### latest #######################################################
-linuxserver/jackett:latest
-linuxserver/bazarr:latest
+# linuxserver/jackett:latest
+# linuxserver/bazarr:latest
+fallenbagel/jellyseerr:latest
 
 # linuxserver/heimdall:latest
 # flaresolverr/flaresolverr:latest
