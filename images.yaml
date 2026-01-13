@@ -1,6 +1,6 @@
 ####################################################### latest #######################################################
 # lunare/n8n-chinese-enterprise:latest 
-n8n-chinese:latest
+lunare/n8n-chinese-cn:2.3.2
 
 # linuxserver/jackett:0.24.645
 # linuxserver/bazarr:latest
