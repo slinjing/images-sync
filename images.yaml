@@ -1,5 +1,7 @@
 ####################################################### latest #######################################################
-linuxserver/jackett:0.24.645
+lunare/n8n-chinese-enterprise:latest 
+
+# linuxserver/jackett:0.24.645
 # linuxserver/bazarr:latest
 # fallenbagel/jellyseerr:latest
 
