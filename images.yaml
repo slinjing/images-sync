@@ -1,7 +1,9 @@
 ####################################################### latest #######################################################
-ollama/ollama:latest
-zylonai/private-gpt:0.6.2-ollama
-traefik:v2.10
+# private-gpt
+# ollama/ollama:latest
+# zylonai/private-gpt:0.6.2-ollama
+# traefik:v2.10
+zylonai/private-gpt:0.6.2-llamacpp-cpu
 
 
 # apache/doris:be-4.0.1
