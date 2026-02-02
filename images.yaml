@@ -1,6 +1,11 @@
 ####################################################### latest #######################################################
-apache/doris:be-4.0.1
-apache/doris:fe-4.0.1
+ollama/ollama:latest
+zylonai/private-gpt:0.6.2-ollama
+traefik:v2.10
+
+
+# apache/doris:be-4.0.1
+# apache/doris:fe-4.0.1
 
 # linuxserver/jackett:0.24.645
 # linuxserver/bazarr:latest
