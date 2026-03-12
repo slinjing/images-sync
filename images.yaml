@@ -9,6 +9,7 @@
 lunare/n8n-chinese-enterprise:latest
 lunare/n8n-chinese-cn:latest
 lunare/n8n-chinese:latest
+lunare/n8n-chinese:2.11.3
 
 
 # apache/doris:be-4.0.1
