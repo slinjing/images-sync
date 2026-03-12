@@ -3,7 +3,12 @@
 # ollama/ollama:latest
 # zylonai/private-gpt:0.6.2-ollama
 # traefik:v2.10
-zylonai/private-gpt:0.6.2-llamacpp-cpu
+# zylonai/private-gpt:0.6.2-llamacpp-cpu
+
+# n8n
+lunare/n8n-chinese-enterprise:latest
+lunare/n8n-chinese-cn:latest
+lunare/n8n-chinese:latest
 
 
 # apache/doris:be-4.0.1
