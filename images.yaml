@@ -5,6 +5,8 @@
 # traefik:v2.10
 # zylonai/private-gpt:0.6.2-llamacpp-cpu
 
+portainer/portainer-ce:latest
+
 # n8n
 lunare/n8n-chinese-enterprise:latest
 lunare/n8n-chinese-cn:latest
