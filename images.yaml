@@ -4,13 +4,14 @@ pgvector/pgvector:pg16
 redis
 
 
-# private-gpt
-# ollama/ollama:latest
-# zylonai/private-gpt:0.6.2-ollama
-# traefik:v2.10
-# zylonai/private-gpt:0.6.2-llamacpp-cpu
 
-# portainer/portainer-ce:latest
+# private-gpt
+ollama/ollama:latest
+zylonai/private-gpt:0.6.2-ollama
+traefik:v2.10
+zylonai/private-gpt:0.6.2-llamacpp-cpu
+
+portainer/portainer-ce:latest
 
 # n8n 
 # lunare/n8n-chinese-enterprise:latest
