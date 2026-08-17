@@ -1,6 +1,7 @@
 ####################################################### latest #######################################################
 ghcr.io/toeverything/affine:stable
-
+pgvector/pgvector:pg16
+redis
 
 # private-gpt
 # ollama/ollama:latest
