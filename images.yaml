@@ -4,7 +4,6 @@ pgvector/pgvector:pg16
 redis
 
 
-
 # private-gpt
 ollama/ollama:latest
 zylonai/private-gpt:0.6.2-ollama
