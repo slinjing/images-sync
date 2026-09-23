@@ -1,12 +1,12 @@
 # ####################################################### latest #######################################################
 # security-stack
-wazuh/wazuh-certs-generator:0.0.1
-wazuh/wazuh-manager:4.14.7
-wazuh/wazuh-indexer:4.14.7
-wazuh/wazuh-dashboard:4.14.7
-ghcr.dockerproxy.com/gleesecurity/glee:latest
-python:3.11-slim
-nginx:alpine
+wazuh/wazuh-certs-generator:0.0.4
+# wazuh/wazuh-manager:4.14.7
+# wazuh/wazuh-indexer:4.14.7
+# wazuh/wazuh-dashboard:4.14.7
+# ghcr.dockerproxy.com/gleesecurity/glee:latest
+# python:3.11-slim
+# nginx:alpine
 
 
 # # affine
