@@ -1,6 +1,8 @@
 # ####################################################### latest #######################################################
+mariadb:11.4.7
+snipe/snipe-it:latest
 # security-stack
-wazuh/wazuh-certs-generator:0.0.4
+# wazuh/wazuh-certs-generator:0.0.4
 # wazuh/wazuh-manager:4.14.7
 # wazuh/wazuh-indexer:4.14.7
 # wazuh/wazuh-dashboard:4.14.7
