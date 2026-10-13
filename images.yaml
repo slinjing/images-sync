@@ -14,7 +14,7 @@
 # ghcr.dockerproxy.com/gleesecurity/glee:latest
 
 ## Affine 知识库
-ghcr.io/toeverything/affine:stable
+ghcr.io/toeverything/affine: stable
 ghcr.io/toeverything/affine:beta
 ghcr.io/toeverything/affine:canary
 pgvector/pgvector:pg16
