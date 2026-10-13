@@ -100,8 +100,7 @@ process_image() {
         return 1
     fi
 
-    # =========【重点修改这里】=========
-    # 只记录源镜像，不再写入目标镜像地址，不会出现***掩码
+    # 只记录源镜像，不写入目标镜像地址，不会出现***掩码
     echo "SUCCESS|$image" >> "$tmp_success"
     echo "SUCCESS: 镜像同步完成: $image"
     cat "$tmp_success" >> succeeded.log
