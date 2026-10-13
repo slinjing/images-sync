@@ -1,0 +1,259 @@
+# ## Asset 资产管理
+# snipe/snipe-it:latest
+
+# ## Halo 博客
+# registry.fit2cloud.com/halo/halo-pro:2.26
+
+# ## Wazuh 安全监控
+# wazuh/wazuh-certs-generator:0.0.4
+# wazuh/wazuh-manager:4.14.7
+# wazuh/wazuh-indexer:4.14.7
+# wazuh/wazuh-dashboard:4.14.7
+
+# ## Glee 安全
+# ghcr.dockerproxy.com/gleesecurity/glee:latest
+
+# ## Affine 知识库
+# ghcr.io/toeverything/affine:stable
+# ghcr.io/toeverything/affine:beta
+# ghcr.io/toeverything/affine:canary
+# pgvector/pgvector:pg16
+
+# ## PrivateGPT 本地大模型
+# ollama/ollama:latest
+# zylonai/private-gpt:0.6.2-ollama
+# zylonai/private-gpt:0.6.2-llamacpp-cpu
+
+# ## Portainer 容器管理
+# portainer/portainer-ce:latest
+
+# ## N8n 低代码自动化
+# lunare/n8n-chinese-enterprise:latest
+# lunare/n8n-chinese-cn:latest
+# lunare/n8n-chinese:latest
+# lunare/n8n-chinese:2.11.3
+# docker.n8n.io/n8nio/n8n:latest
+
+# ## Apache Doris 数仓
+# apache/doris:be-4.0.1
+# apache/doris:fe-4.0.1
+
+# ## 媒体影音服务
+# linuxserver/jackett:0.24.645
+# linuxserver/bazarr:latest
+# fallenbagel/jellyseerr:latest
+# linuxserver/heimdall:latest
+# flaresolverr/flaresolverr:latest
+# linuxserver/prowlarr:develop
+# luckypuppy514/jproxy:latest
+# fallenbagel/jellyseerr:develop
+# linuxserver/sonarr:develop
+# allanpk716/chinesesubfinder:latest-lite
+# emby/embyserver:latest
+# jellyfin/jellyfin:latest
+# linuxserver/radarr:latest
+# linuxserver/sonarr:latest
+# linuxserver/prowlarr:latest
+# linuxserver/qbittorrent:latest
+# lscr.io/linuxserver/prowlarr:develop
+# binhex/arch-qbittorrentvpn
+# lscr.io/linuxserver/sonarr
+# lscr.io/linuxserver/radarr
+# jellyfin/jellyfin
+# lscr.io/linuxserver/bazarr
+
+# ## Zfile 文件管理
+# zhaojun1998/zfile:latest
+
+# ## Siyuan 思源笔记
+# b3log/siyuan:latest
+
+# ## 闲鱼工具
+# crpi-ewihweek11p6l2rf.cn-shanghai.personal.cr.aliyuncs.com/price_ma/xianyu-replay-fixed:latest
+
+# ## Cloudreve 网盘
+# cloudreve/cloudreve:latest
+
+# ## StirlingPDF PDF 工具
+# docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+
+# ## MusicTag 音乐标签
+# xhongc/music_tag_web:latest
+
+# ## Zentao 禅道项目管理
+# easysoft/zentao:latest
+# easysoft/zentao:21.7.4
+# easysoft/zentao:21.7.5
+
+# ## Readest 阅读器
+# aliuq/readest:latest
+
+# ## Greenhouse-ae
+# capysix/greenhouse-ae:latest
+
+# ## 镜像仓库代理
+# mirhub/mirror-gcr:latest
+# mirhub/mirror-hub:latest
+
+# ## Linux 基础镜像
+# alpine:latest
+# alpine:3.20
+# ubuntu:24.04
+# ubuntu:22.04
+# ubuntu:20.04
+# debian:12-slim
+# centos:7
+# rockylinux/rockylinux:9
+# rockylinux/rockylinux:8
+
+# ## Alpine 工具镜像
+# alpine/openssl:latest
+# alpine/git:latest
+# alpine/git:v2.49.1
+
+# ## 编程语言镜像
+# python:3.12-alpine
+# python:3.11-slim
+# python:3.9-slim
+# node:22-bullseye
+# node:20-alpine
+# node:16
+# node:16-alpine
+# openjdk:8u342-jre-slim
+# openjdk:8u121-alpine
+# golang:1.22-alpine
+# rust:1.77-slim
+
+# ## Web 反向代理
+# nginx:latest
+# nginx:alpine
+# nginx:1.23.0
+# traefik:v3.0
+# traefik:v2.10
+# caddy:2-alpine
+
+# ## Docker 引擎
+# docker:27.0-dind
+# linuxserver/docker-compose:2.16.0-v2
+
+# ## 安全工具
+# aquasec/trivy:latest
+# jertel/elastalert2:latest
+# google/cadvisor:latest
+
+# ## 链路追踪
+# jaegertracing/jaeger:latest
+
+# ## 日志组件
+# docker.elastic.co/logstash/logstash:8.9.0
+
+# ## Greenbone 漏洞扫描
+# registry.community.greenbone.net/community/vulnerability-tests
+# registry.community.greenbone.net/community/notus-data
+# registry.community.greenbone.net/community/scap-data
+# registry.community.greenbone.net/community/cert-bund-data
+# registry.community.greenbone.net/community/dfn-cert-data
+# registry.community.greenbone.net/community/data-objects
+# registry.community.greenbone.net/community/report-formats
+# registry.community.greenbone.net/community/gpg-data
+# registry.community.greenbone.net/community/redis-server
+# registry.community.greenbone.net/community/pg-gvm:stable
+# registry.community.greenbone.net/community/gvmd:stable
+# registry.community.greenbone.net/community/gsa:stable
+# registry.community.greenbone.net/community/openvas-scanner:stable
+# registry.community.greenbone.net/community/ospd-openvas:stable
+# registry.community.greenbone.net/community/gvm-tools
+
+# ## Minecraft 游戏服务
+# itzg/minecraft-server
+
+# ## Immich 相册
+# ghcr.io/immich-app/immich-server:release
+# ghcr.io/immich-app/immich-machine-learning:release
+# ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+
+# ## Minio 对象存储
+# minio/minio:latest
+# quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
+
+# ## Valkey 缓存
+# docker.io/valkey/valkey:8-bookworm
+# docker.io/valkey/valkey:8
+
+# ## IzPBX 电话
+# docker.io/izdock/izpbx-asterisk:20.16.20
+
+# ## InfluxDB 时序库
+# influxdb:latest
+
+# ## Gitlab 代码仓库
+# gitlab/gitlab-ce:latest
+# gitlab/gitlab-runner:latest
+# gitlab/gitlab-runner:bleeding
+
+# ## Jenkins CI/CD
+# jenkins/jenkins:latest
+# jenkins/jenkins:lts
+
+# ## MySQL 数据库
+# mysql:latest
+# mysql:8.0.39
+# mysql:8.0
+# mysql:5.7
+
+# ## Postgres 数据库
+# postgres:latest
+# postgres:17
+# postgres:16-alpine
+# postgres:16
+# postgres:15.4
+# postgres:15
+
+# ## Redis 缓存
+# redis:latest
+# redis:7-alpine
+# redis:6.0.8
+# redis:6
+
+# ## Elasticsearch 检索
+# docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+# docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+# docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+
+# ## Kibana 可视化
+# docker.elastic.co/kibana/kibana:8.14.0
+# docker.elastic.co/kibana/kibana:8.11.3
+# docker.elastic.co/kibana/kibana:8.9.0
+
+# ## Memcached 缓存
+# memcached:1.6-alpine
+
+# ## Mariadb 数据库
+# mariadb:latest
+# mariadb:11.4.7
+# mariadb:11
+# mariadb:10.11.11
+# mariadb:10.6.7
+
+# ## MongoDB 文档库
+# mongodb/mongodb:latest
+# mongodb/mongodb-community-server:7.0-ubuntu2204
+
+# ## RabbitMQ 消息队列
+# rabbitmq:4-management
+# rabbitmq:3.13-management
+
+# ## Zookeeper 协调
+# zookeeper:3.9
+
+# ## Prometheus 监控
+# prom/prometheus:latest
+# prom/prometheus:v2.45.0
+
+# ## Alertmanager 告警
+# prom/alertmanager:latest
+
+# ## Grafana 可视化
+# grafana/grafana:latest
+# grafana/grafana:10.4.0
+# grafana/loki:main-4608048
