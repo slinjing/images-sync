@@ -42,6 +42,7 @@ jobs:
       - name: Notify Result
         if: always()
         run: |
+          export GITHUB_TOKEN=""  
           success_count=$(wc -l < succeeded.log)
           fail_count=$(wc -l < failed.log)
           echo "==== 镜像同步统计 ===="
