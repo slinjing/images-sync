@@ -1,8 +1,8 @@
-## Asset 资产管理
-snipe/snipe-it:latest
+# ## Asset 资产管理
+# snipe/snipe-it:latest
 
-## Halo 博客
-registry.fit2cloud.com/halo/halo-pro:2.26
+# ## Halo 博客
+# registry.fit2cloud.com/halo/halo-pro:2.26
 
 # ## Wazuh 安全监控
 # wazuh/wazuh-certs-generator:0.0.4
@@ -13,11 +13,11 @@ registry.fit2cloud.com/halo/halo-pro:2.26
 # ## Glee 安全
 # ghcr.dockerproxy.com/gleesecurity/glee:latest
 
-# ## Affine 知识库
-# ghcr.io/toeverything/affine:stable
-# ghcr.io/toeverything/affine:beta
-# ghcr.io/toeverything/affine:canary
-# pgvector/pgvector:pg16
+## Affine 知识库
+ghcr.io/toeverything/affine:stable
+ghcr.io/toeverything/affine:beta
+ghcr.io/toeverything/affine:canary
+pgvector/pgvector:pg16
 
 # ## PrivateGPT 本地大模型
 # ollama/ollama:latest
