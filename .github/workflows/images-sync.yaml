@@ -2,10 +2,10 @@ name: Image Sync
 on:
   push:
     branches: [ main ]
-    paths: [ 'images.yaml' ]  # images.yaml变更触发
+    paths: [ 'images.yaml' ]
   workflow_dispatch:
   schedule:
-    - cron: '0 16 * * *'  # UTC 16点 = 北京时间0点
+    - cron: '0 16 * * *'
 
 jobs:
   sync-images:
@@ -30,6 +30,12 @@ jobs:
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
+      - name: Check Sync Result
+        run: |
+          if [ -s failed.log ]; then
+            echo "❌ 检测到镜像同步失败，标记Job失败"
+            exit 1
+          fi
       - name: Upload Logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -52,4 +58,5 @@ jobs:
             cat failed.log
           else
             echo -e "\n✅ 全部镜像同步成功"
+            cat succeeded.log
           fi
