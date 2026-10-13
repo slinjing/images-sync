@@ -95,34 +95,34 @@
 # mirhub/mirror-gcr:latest
 # mirhub/mirror-hub:latest
 
-## Linux 基础镜像
-alpine:latest
-alpine:3.20
-ubuntu:24.04
-ubuntu:22.04
-ubuntu:20.04
-debian:12-slim
-centos:7
-rockylinux/rockylinux:9
-rockylinux/rockylinux:8
+# ## Linux 基础镜像
+# alpine:latest
+# alpine:3.20
+# ubuntu:24.04
+# ubuntu:22.04
+# ubuntu:20.04
+# debian:12-slim
+# centos:7
+# rockylinux/rockylinux:9
+# rockylinux/rockylinux:8
 
 # ## Alpine 工具镜像
 # alpine/openssl:latest
 # alpine/git:latest
 # alpine/git:v2.49.1
 
-# ## 编程语言镜像
-# python:3.12-alpine
-# python:3.11-slim
-# python:3.9-slim
-# node:22-bullseye
-# node:20-alpine
-# node:16
-# node:16-alpine
-# openjdk:8u342-jre-slim
-# openjdk:8u121-alpine
-# golang:1.22-alpine
-# rust:1.77-slim
+## 编程语言镜像
+python:3.12-alpine
+python:3.11-slim
+python:3.9-slim
+node:22-bullseye
+node:20-alpine
+node:16
+node:16-alpine
+openjdk:8u342-jre-slim
+openjdk:8u121-alpine
+golang:1.22-alpine
+rust:1.77-slim
 
 # ## Web 反向代理
 # nginx:latest
