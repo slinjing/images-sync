@@ -2,13 +2,13 @@
 snipe/snipe-it:latest
 
 ## Halo 博客
-registry.fit2cloud.com/halo/halo-pro:2.26
+registry.fit2cloud.com/halo/halo-pro: 2.26
 
-## Wazuh 安全监控
-wazuh/wazuh-certs-generator:0.0.4
-wazuh/wazuh-manager:4.14.7
-wazuh/wazuh-indexer:4.14.7
-wazuh/wazuh-dashboard:4.14.7
+# ## Wazuh 安全监控
+# wazuh/wazuh-certs-generator:0.0.4
+# wazuh/wazuh-manager:4.14.7
+# wazuh/wazuh-indexer:4.14.7
+# wazuh/wazuh-dashboard:4.14.7
 
 # ## Glee 安全
 # ghcr.dockerproxy.com/gleesecurity/glee:latest
