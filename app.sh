@@ -9,7 +9,7 @@ fi
 # 并发数，根据仓库限流调整，推荐 2~4
 CONCURRENCY=3
 
-# 初始化日志文件
+# 主日志文件
 > succeeded.log
 > failed.log
 
@@ -19,14 +19,22 @@ process_image() {
     image=$(echo "$image" | xargs)
     [[ -z "$image" || "$image" =~ ^# ]] && return 0
 
+    # 每个任务独立临时文件，防止并发日志错乱
+    local tmp_success
+    local tmp_failed
+    tmp_success=$(mktemp)
+    tmp_failed=$(mktemp)
+
     echo -e "\n===== 处理镜像: $image ====="
     # 提取镜像名称和标签
     if [[ "$image" =~ ^([^:]+)(:([^:]+))?$ ]]; then
         image_name="${BASH_REMATCH[1]}"
         image_tag="${BASH_REMATCH[3]:-latest}"
     else
-        echo "INVALID|$image|镜像格式无效" >> failed.log
+        echo "INVALID|$image|镜像格式无效" >> "$tmp_failed"
         echo "ERROR: 镜像格式无效: $image"
+        cat "$tmp_failed" >> failed.log
+        rm "$tmp_success" "$tmp_failed"
         return 1
     fi
 
@@ -44,19 +52,27 @@ process_image() {
         else
             if [ $i -eq $retries ]; then
                 echo "ERROR: 镜像拉取失败（重试$retries次）: $image"
-                echo "PULL_FAIL|$image|拉取镜像失败" >> failed.log
+                echo "PULL_FAIL|$image|拉取镜像失败" >> "$tmp_failed"
+                cat "$tmp_failed" >> failed.log
+                rm "$tmp_success" "$tmp_failed"
                 return 1
             fi
             echo "WARN: 拉取失败，第$i次重试..."
             sleep 2
         fi
     done
-    if [ "$pull_ok" -ne 1 ]; then return 1; fi
+    if [ "$pull_ok" -ne 1 ]; then
+        cat "$tmp_failed" >> failed.log
+        rm "$tmp_success" "$tmp_failed"
+        return 1
+    fi
 
     # tag
     if ! docker tag "$image" "$target_image"; then
         echo "ERROR: 镜像打标签失败: $image -> $target_image"
-        echo "TAG_FAIL|$image|打标签失败" >> failed.log
+        echo "TAG_FAIL|$image|打标签失败" >> "$tmp_failed"
+        cat "$tmp_failed" >> failed.log
+        rm "$tmp_success" "$tmp_failed"
         return 1
     fi
 
@@ -69,17 +85,27 @@ process_image() {
         else
             if [ $i -eq $retries ]; then
                 echo "ERROR: 镜像推送失败（重试$retries次）: $target_image"
-                echo "PUSH_FAIL|$image|推送镜像失败" >> failed.log
+                echo "PUSH_FAIL|$image|推送镜像失败" >> "$tmp_failed"
+                cat "$tmp_failed" >> failed.log
+                rm "$tmp_success" "$tmp_failed"
                 return 1
             fi
             echo "WARN: 推送失败，第$i次重试..."
             sleep 2
         fi
     done
-    if [ "$push_ok" -ne 1 ]; then return 1; fi
+    if [ "$push_ok" -ne 1 ]; then
+        cat "$tmp_failed" >> failed.log
+        rm "$tmp_success" "$tmp_failed"
+        return 1
+    fi
 
-    echo "SUCCESS|$image|$target_image" >> succeeded.log
-    echo "SUCCESS: 镜像同步完成: $image -> $target_image"
+    # =========【重点修改这里】=========
+    # 只记录源镜像，不再写入目标镜像地址，不会出现***掩码
+    echo "SUCCESS|$image" >> "$tmp_success"
+    echo "SUCCESS: 镜像同步完成: $image"
+    cat "$tmp_success" >> succeeded.log
+    rm "$tmp_success" "$tmp_failed"
     return 0
 }
 export -f process_image
@@ -103,9 +129,7 @@ echo "❌ 失败数量：${fail_count}"
 if [[ ${fail_count} -gt 0 ]]; then
     echo -e "\n失败镜像清单："
     cat failed.log
-    exit 1
 else
     echo -e "\n全部镜像同步成功！"
     cat succeeded.log
-    exit 0
 fi
