@@ -111,7 +111,7 @@ export -f process_image
 export REGISTRY NAMESPACE retries
 
 # 读取镜像列表，过滤空行注释，xargs并行执行
-cat images.yaml | while IFS= read -r line; do
+cat images_list | while IFS= read -r line; do
     line=$(echo "$line" | xargs)
     [[ -z "$line" || "$line" =~ ^# ]] && continue
     echo "$line"
