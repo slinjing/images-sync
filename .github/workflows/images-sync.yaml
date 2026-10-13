@@ -45,18 +45,3 @@ jobs:
             succeeded.log
             failed.log
           retention-days: 7
-      - name: Notify Result
-        if: always()
-        run: |
-          success_count=$(wc -l < succeeded.log)
-          fail_count=$(wc -l < failed.log)
-          echo "==== 镜像同步统计 ===="
-          echo "✅ 成功：${success_count}"
-          echo "❌ 失败：${fail_count}"
-          if [ -s failed.log ]; then
-            echo -e "\n❌ 失败镜像列表："
-            cat failed.log
-          else
-            echo -e "\n✅ 全部镜像同步成功"
-            cat succeeded.log
-          fi
