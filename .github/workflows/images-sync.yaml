@@ -2,7 +2,7 @@ name: Image Sync
 on:
   push:
     branches: [ main ]
-    paths: [ 'images.yaml' ]
+    paths: [ 'images_list' ]
   workflow_dispatch:
   schedule:
     - cron: '0 16 * * *'
