@@ -1,88 +1,111 @@
 #!/bin/bash
-set -euo pipefail  # 启用严格模式，捕获未定义变量和命令失败
-
+set -euo pipefail
 # 检查必要环境变量
 if [ -z "${REGISTRY:-}" ] || [ -z "${NAMESPACE:-}" ]; then
-    echo "ERROR: 环境变量 REGISTRY 和 NAMESPACE 必须设置" >&2  # 错误输出到stderr
+    echo "ERROR: 环境变量 REGISTRY 和 NAMESPACE 必须设置" >&2
     exit 1
 fi
+
+# 并发数，根据仓库限流调整，推荐 2~4
+CONCURRENCY=3
 
 # 初始化日志文件
 > succeeded.log
 > failed.log
 
-# 处理镜像列表
-while IFS= read -r image; do
-    # 清理行内容（去空格、跳过空行和注释）
+# 定义处理单个镜像函数
+process_image() {
+    local image="$1"
     image=$(echo "$image" | xargs)
-    [[ -z "$image" || "$image" =~ ^# ]] && continue
-
-    # 提取镜像名称和标签（更健壮的正则匹配）
-    if [[ "$image" =~ ^([^:]+)(:([^:]+))?$ ]]; then
-        image_name="${BASH_REMATCH[1]}"
-        image_tag="${BASH_REMATCH[3]:-latest}"  # 默认为latest
-    else
-        echo "ERROR: 镜像格式无效: $image" | tee -a failed.log
-        continue
-    fi
-
-    # 提取镜像短名称（处理带路径的情况，如ghcr.io/xxx/yyy -> yyy）
-    short_name=$(basename "$image_name")
-
-    # 目标镜像地址
-    target_image="${REGISTRY}/${NAMESPACE}/${short_name}:${image_tag}"
+    [[ -z "$image" || "$image" =~ ^# ]] && return 0
 
     echo -e "\n===== 处理镜像: $image ====="
+    # 提取镜像名称和标签
+    if [[ "$image" =~ ^([^:]+)(:([^:]+))?$ ]]; then
+        image_name="${BASH_REMATCH[1]}"
+        image_tag="${BASH_REMATCH[3]:-latest}"
+    else
+        echo "INVALID|$image|镜像格式无效" >> failed.log
+        echo "ERROR: 镜像格式无效: $image"
+        return 1
+    fi
+
+    short_name=$(basename "$image_name")
+    target_image="${REGISTRY}/${NAMESPACE}/${short_name}:${image_tag}"
     echo "目标地址: $target_image"
 
-    # 拉取镜像（带重试机制）
     retries=3
+    # pull
+    local pull_ok=0
     for ((i=1; i<=retries; i++)); do
         if docker pull "$image"; then
+            pull_ok=1
             break
         else
             if [ $i -eq $retries ]; then
-                echo "ERROR: 镜像拉取失败（重试$retries次）: $image" | tee -a failed.log
-                continue 2  # 跳过当前镜像
+                echo "ERROR: 镜像拉取失败（重试$retries次）: $image"
+                echo "PULL_FAIL|$image|拉取镜像失败" >> failed.log
+                return 1
             fi
             echo "WARN: 拉取失败，第$i次重试..."
             sleep 2
         fi
     done
+    if [ "$pull_ok" -ne 1 ]; then return 1; fi
 
-    # 打标签
+    # tag
     if ! docker tag "$image" "$target_image"; then
-        echo "ERROR: 镜像打标签失败: $image -> $target_image" | tee -a failed.log
-        continue
+        echo "ERROR: 镜像打标签失败: $image -> $target_image"
+        echo "TAG_FAIL|$image|打标签失败" >> failed.log
+        return 1
     fi
 
-    # 推送镜像（带重试机制）
+    # push
+    local push_ok=0
     for ((i=1; i<=retries; i++)); do
         if docker push "$target_image"; then
+            push_ok=1
             break
         else
             if [ $i -eq $retries ]; then
-                echo "ERROR: 镜像推送失败（重试$retries次）: $target_image" | tee -a failed.log
-                continue 2
+                echo "ERROR: 镜像推送失败（重试$retries次）: $target_image"
+                echo "PUSH_FAIL|$image|推送镜像失败" >> failed.log
+                return 1
             fi
             echo "WARN: 推送失败，第$i次重试..."
             sleep 2
         fi
     done
+    if [ "$push_ok" -ne 1 ]; then return 1; fi
 
-    # 记录成功日志
-    echo "SUCCESS: 镜像同步完成: $image -> $target_image" | tee -a succeeded.log
+    echo "SUCCESS|$image|$target_image" >> succeeded.log
+    echo "SUCCESS: 镜像同步完成: $image -> $target_image"
+    return 0
+}
+export -f process_image
+export REGISTRY NAMESPACE retries
 
-done < images.yaml
+# 读取镜像列表，过滤空行注释，xargs并行执行
+cat images.yaml | while IFS= read -r line; do
+    line=$(echo "$line" | xargs)
+    [[ -z "$line" || "$line" =~ ^# ]] && continue
+    echo "$line"
+done | xargs -P "${CONCURRENCY}" -I {} bash -c 'process_image "$@"' _ {}
 
-# 输出最终结果
-echo -e "\n===== 同步结果 ====="
-if [ -s failed.log ]; then
-    echo "❌ 部分镜像同步失败:"
+# ========== 统计汇总 ==========
+success_count=$(wc -l < succeeded.log)
+fail_count=$(wc -l < failed.log)
+
+echo -e "\n===== 同步结果汇总 ====="
+echo "✅ 成功数量：${success_count}"
+echo "❌ 失败数量：${fail_count}"
+
+if [[ ${fail_count} -gt 0 ]]; then
+    echo -e "\n失败镜像清单："
     cat failed.log
     exit 1
 else
-    echo "✅ 所有镜像同步成功:"
+    echo -e "\n全部镜像同步成功！"
     cat succeeded.log
     exit 0
 fi
