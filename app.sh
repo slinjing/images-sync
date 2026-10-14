@@ -1,7 +1,7 @@
 #!/bin/bash
 set -uo pipefail
 
-# ========== 终端颜色定义（仅终端输出使用，日志文件不写入颜色码） ==========
+# ========== 终端颜色定义 ==========
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -40,6 +40,12 @@ process_image() {
     echo -e "\n===== 处理镜像: ${src_img} ====="
     echo "【当前磁盘】$(df -h / | awk 'NR==2 {print $5}')"
 
+    # docker原生逻辑：没有tag自动补 :latest
+    if [[ "$src_img" != *:* ]];then
+        echo -e "${YELLOW}WARN: 未指定tag，自动使用 latest → ${src_img}:latest ${NC}"
+        src_img="${src_img}:latest"
+    fi
+
     # 解析镜像名称与tag
     if [[ "${src_img}" =~ ^(.*):([^:]+)$ ]];then
         img_name="${BASH_REMATCH[1]}"
@@ -68,7 +74,7 @@ process_image() {
         fi
     fi
 
-    # ------------------- 开始 pull‑tag‑push流程 -------------------
+    # pull 镜像带重试
     local pull_ok=0
     for ((i=1; i<=RETRIES; i++)); do
         if docker pull "${src_img}"; then
@@ -88,6 +94,7 @@ process_image() {
         return 1
     fi
 
+    # 打标签
     if ! docker tag "${src_img}" "${dest_img}";then
         echo "TAG_FAIL|${src_img}|docker tag打标签失败" >> "${tmp_fail}"
         echo -e "${RED}ERROR: 打标签失败 ${src_img} -> ${dest_img}${NC}"
@@ -97,6 +104,7 @@ process_image() {
         return 1
     fi
 
+    # push推送带重试
     local push_ok=0
     for ((i=1; i<=RETRIES; i++)); do
         if docker push "${dest_img}"; then
@@ -118,7 +126,7 @@ process_image() {
         cat "${tmp_fail}" >> failed.log
     fi
 
-    # 【关键】立刻清理本地镜像 + 清理悬空镜像，释放磁盘
+    # 立刻清理本地镜像 + 清理悬空镜像，释放磁盘
     docker rmi "${src_img}" "${dest_img}" 2>/dev/null || true
     docker image prune -f >/dev/null 2>&1
 
@@ -142,7 +150,7 @@ fail_count=$(wc -l < failed.log)
 
 echo -e "\n==================== 同步结果汇总 ===================="
 echo -e "${GREEN}✅ 成功镜像数量：${success_count}${NC}"
-echo -e "${SKY}⏭️  跳过镜像数量：${skip_count}${NC}"
+echo -e "${SKY}⏭️ 跳过镜像数量：${skip_count}${NC}"
 echo -e "${RED}❌ 失败镜像数量：${fail_count}${NC}"
 
 if [[ ${skip_count} -gt 0 ]];then
