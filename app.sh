@@ -5,6 +5,7 @@ set -uo pipefail
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+SKY='\033[1;36m'
 NC='\033[0m' # No Color
 
 # 环境变量，可在 workflow 传入，带默认值
@@ -18,8 +19,9 @@ if [[ -z "${REGISTRY}" || -z "${NAMESPACE}" ]];then
     exit 1
 fi
 
-# 清空日志
+# 清空三类日志
 > succeeded.log
+> skipped.log
 > failed.log
 
 # 单镜像处理函数
@@ -30,6 +32,8 @@ process_image(){
 
     local tmp_success
     tmp_success=$(mktemp)
+    local tmp_skip
+    tmp_skip=$(mktemp)
     local tmp_fail
     tmp_fail=$(mktemp)
 
@@ -43,7 +47,7 @@ process_image(){
         echo "INVALID|${src_img}|镜像格式解析失败" >> "${tmp_fail}"
         echo -e "${RED}ERROR: 镜像格式无效 ${src_img}${NC}"
         cat "${tmp_fail}" >> failed.log
-        rm -f "${tmp_success}" "${tmp_fail}"
+        rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
         return 1
     fi
 
@@ -52,14 +56,14 @@ process_image(){
     dest_img="${REGISTRY}/${NAMESPACE}/${short_img}:${img_tag}"
     echo "目标镜像: ${dest_img}"
 
-    # ========== latest标签强制同步，跳过manifest检查 ==========
+    # ========== 规则：latest标签强制同步，不检查是否存在 ==========
     if [[ "${img_tag}" != "latest" ]];then
-        # 非latest标签：原有逻辑，存在则跳过
+        # 非latest：检查目标镜像存在，直接跳过
         if crane manifest "${dest_img}" >/dev/null 2>&1;then
-            echo "SUCCESS|${src_img}" >> "${tmp_success}"
-            echo -e "${GREEN}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
-            cat "${tmp_success}" >> succeeded.log
-            rm -f "${tmp_success}" "${tmp_fail}"
+            echo "SKIP|${src_img}" >> "${tmp_skip}"
+            echo -e "${SKY}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
+            cat "${tmp_skip}" >> skipped.log
+            rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
             return 0
         fi
     fi
@@ -67,7 +71,7 @@ process_image(){
     # latest标签 / 目标不存在：执行copy
     local copy_ok=0
     for ((i=1; i<=RETRIES; i++));do
-        if crane copy "${src_img}" "${dest_img}" --allow-nondistributable;then
+        if crane copy "${src_img}" "${dest_img}";then
             copy_ok=1
             break
         else
@@ -86,11 +90,11 @@ process_image(){
         cat "${tmp_fail}" >> failed.log
     fi
 
-    rm -f "${tmp_success}" "${tmp_fail}"
+    rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
 }
 
 export -f process_image
-export REGISTRY NAMESPACE CONCURRENCY RETRIES RED GREEN YELLOW NC
+export REGISTRY NAMESPACE CONCURRENCY RETRIES RED GREEN YELLOW SKY NC
 
 # 读取images.yaml，过滤注释空行，并发执行
 cat images.yaml | while IFS= read -r line;do
@@ -99,13 +103,21 @@ cat images.yaml | while IFS= read -r line;do
     echo "$line"
 done | xargs -P"${CONCURRENCY}" -I {} bash -c 'process_image "{}"'
 
-# ========== 汇总统计 ==========
+# ========== 汇总统计：成功 / 跳过 / 失败 分开统计 ==========
 success_count=$(wc -l < succeeded.log)
+skip_count=$(wc -l < skipped.log)
 fail_count=$(wc -l < failed.log)
 
 echo -e "\n==================== 同步结果汇总 ===================="
 echo -e "${GREEN}✅ 成功镜像数量：${success_count}${NC}"
+echo -e "${SKY}⏭️  跳过镜像数量：${skip_count}${NC}"
 echo -e "${RED}❌ 失败镜像数量：${fail_count}${NC}"
+
+if [[ ${skip_count} -gt 0 ]];then
+    echo -e "\n------ 跳过镜像清单 -----"
+    cat skipped.log
+fi
+
 if [[ ${fail_count} -gt 0 ]];then
     echo -e "\n------ 失败镜像清单 -----"
     cat failed.log
