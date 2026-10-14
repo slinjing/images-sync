@@ -18,7 +18,7 @@ if [[ -z "${REGISTRY}" || -z "${NAMESPACE}" ]];then
     exit 1
 fi
 
-# 日志初始化
+# 清空日志
 > succeeded.log
 > failed.log
 
@@ -29,42 +29,44 @@ process_image(){
     [[ -z "$src_img" || "$src_img" =~ ^# ]] && return 0
 
     local tmp_success
-    local tmp_failed
     tmp_success=$(mktemp)
-    tmp_failed=$(mktemp)
+    local tmp_fail
+    tmp_fail=$(mktemp)
 
     echo -e "\n===== 处理镜像: ${src_img} ====="
 
-    # 解析源镜像：name:tag
-    if [[ "${src_img}" =~ ^([^:]+)(:([^:]+))?$ ]];then
+    # 解析源镜像名称和tag
+    if [[ "${src_img}" =~ ^(.*):([^:]+)$ ]];then
         img_name="${BASH_REMATCH[1]}"
-        img_tag="${BASH_REMATCH[3]:-latest}"
+        img_tag="${BASH_REMATCH[2]}"
     else
-        echo "INVALID|${src_img}|镜像格式解析失败" >> "${tmp_failed}"
+        echo "INVALID|${src_img}|镜像格式解析失败" >> "${tmp_fail}"
         echo -e "${RED}ERROR: 镜像格式无效 ${src_img}${NC}"
-        cat "${tmp_failed}" >> failed.log
-        rm "${tmp_success}" "${tmp_failed}"
+        cat "${tmp_fail}" >> failed.log
+        rm -f "${tmp_success}" "${tmp_fail}"
         return 1
     fi
 
-    # 剥离源仓库域名，只取镜像短名
-    short_name="${img_name##*/}"
-    dest_img="${REGISTRY}/${NAMESPACE}/${short_name}:${img_tag}"
+    # 目标镜像
+    short_img="${img_name##*/}"
+    dest_img="${REGISTRY}/${NAMESPACE}/${short_img}:${img_tag}"
     echo "目标镜像: ${dest_img}"
 
-    # 增量检查：目标仓库是否已经存在该tag，存在直接跳过
-    if crane manifest "${dest_img}" >/dev/null 2>&1;then
-        echo "SKIP|${src_img}|目标已存在，跳过同步"
-        echo "SUCCESS|${src_img}" >> "${tmp_success}"
-        echo -e "${GREEN}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
-        cat "${tmp_success}" >> succeeded.log
-        rm "${tmp_success}" "${tmp_failed}"
-        return 0
+    # ========== latest标签强制同步，跳过manifest检查 ==========
+    if [[ "${img_tag}" != "latest" ]];then
+        # 非latest标签：原有逻辑，存在则跳过
+        if crane manifest "${dest_img}" >/dev/null 2>&1;then
+            echo "SUCCESS|${src_img}" >> "${tmp_success}"
+            echo -e "${GREEN}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
+            cat "${tmp_success}" >> succeeded.log
+            rm -f "${tmp_success}" "${tmp_fail}"
+            return 0
+        fi
     fi
 
-    # crane copy 源镜像 -> 目标镜像，带重试
+    # latest标签 / 目标不存在：执行copy
     local copy_ok=0
-    for ((i=1;i<=RETRIES;i++));do
+    for ((i=1; i<=RETRIES; i++));do
         if crane copy "${src_img}" "${dest_img}" --allow-nondistributable;then
             copy_ok=1
             break
@@ -74,41 +76,38 @@ process_image(){
         fi
     done
 
-    if [[ "${copy_ok}" -ne 1 ]];then
-        echo "COPY_FAIL|${src_img}|crane copy 拷贝镜像失败" >> "${tmp_failed}"
+    if [[ ${copy_ok} -eq 1 ]];then
+        echo "SUCCESS|${src_img}" >> "${tmp_success}"
+        echo -e "${GREEN}SUCCESS: 镜像同步完成 ${src_img}${NC}"
+        cat "${tmp_success}" >> succeeded.log
+    else
+        echo "COPY_FAIL|${src_img}|crane copy 拷贝镜像失败" >> "${tmp_fail}"
         echo -e "${RED}ERROR: 镜像拷贝失败 ${src_img}${NC}"
-        cat "${tmp_failed}" >> failed.log
-        rm "${tmp_success}" "${tmp_failed}"
-        return 1
+        cat "${tmp_fail}" >> failed.log
     fi
 
-    echo "SUCCESS|${src_img}" >> "${tmp_success}"
-    echo -e "${GREEN}SUCCESS: 镜像同步完成 ${src_img}${NC}"
-    cat "${tmp_success}" >> succeeded.log
-
-    rm "${tmp_success}" "${tmp_failed}"
-    return 0
+    rm -f "${tmp_success}" "${tmp_fail}"
 }
 
 export -f process_image
-export REGISTRY NAMESPACE CONCURRENCY RETRIES
+export REGISTRY NAMESPACE CONCURRENCY RETRIES RED GREEN YELLOW NC
 
-# 读取镜像列表 images.yaml，过滤注释空行
+# 读取images.yaml，过滤注释空行，并发执行
 cat images.yaml | while IFS= read -r line;do
     line=$(echo "$line" | xargs)
-    [[ -z "${line}" || "${line}" =~ ^# ]] && continue
-    echo "${line}"
-done | xargs -P "${CONCURRENCY}" -I {} bash -c 'process_image "$@"' _ {}
+    [[ -z "$line" || "$line" =~ ^# ]] && continue
+    echo "$line"
+done | xargs -P"${CONCURRENCY}" -I {} bash -c 'process_image "{}"'
 
-# ========== 统计汇总，一定会执行 ==========
+# ========== 汇总统计 ==========
 success_count=$(wc -l < succeeded.log)
 fail_count=$(wc -l < failed.log)
 
 echo -e "\n==================== 同步结果汇总 ===================="
 echo -e "${GREEN}✅ 成功镜像数量：${success_count}${NC}"
 echo -e "${RED}❌ 失败镜像数量：${fail_count}${NC}"
-if [[ "${fail_count}" -gt 0 ]];then
-    echo -e "\n----- 失败镜像清单 -----"
+if [[ ${fail_count} -gt 0 ]];then
+    echo -e "\n------ 失败镜像清单 -----"
     cat failed.log
 fi
 echo "======================================================"
