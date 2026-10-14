@@ -1,4 +1,3 @@
-```
 # Docker镜像批量同步工具
 
 > GitHub‑Actions批量同步镜像到私有仓库(阿里云ACR/腾讯TCR/Harbor)
@@ -82,8 +81,7 @@ env:
 
 1. **磁盘爆满**：设置`CONCURRENCY:1`串行执行
 2. **PULL_FAIL 拉取失败**：境外源网络波动，调大重试，降低并发
-3. **GitHub 网页看不到颜色**：网页不支持 ANSI 颜色，本地终端运行脚本才有颜色
-4. **AWS‑ECR**：需要提前手动建立仓库，不支持自动创建；ACR/TCR/Harbor 自动建库
+3. **AWS‑ECR**：需要提前手动建立仓库，不支持自动创建；ACR/TCR/Harbor 自动建库
 
 > 
 > GitHub 免费账号注意 Actions 时长配额，控制定时任务频次。
