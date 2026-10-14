@@ -53,7 +53,7 @@ mysql:8.0.39
 
 1. **自动触发**：提交修改`images.yaml`到 main 分支自动运行
 2. **手动运行**：Actions → Image Sync → Run workflow
-3. **定时**：workflow 中 cron `30 8 * * *`（UTC 08:30 = 北京时间 16:30）
+3. **定时**：workflow 中 cron '0 16 * * *'（UTC 16:00 = 北京时间晚上24点）
 
 ## 🛠参数（在 images‑sync.yaml 的 env 修改，不用改脚本）
 
