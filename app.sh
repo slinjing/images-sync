@@ -58,8 +58,7 @@ process_image(){
 
     # ========== 规则：latest标签强制同步，不检查是否存在 ==========
     if [[ "${img_tag}" != "latest" ]];then
-        # 非latest：检查目标镜像存在，直接跳过
-        if crane manifest "${dest_img}" >/dev/null 2>&1;then
+        if crane manifest "${dest_img}" >/dev/null 2>/dev/null;then
             echo "SKIP|${src_img}" >> "${tmp_skip}"
             echo -e "${SKY}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
             cat "${tmp_skip}" >> skipped.log
@@ -71,12 +70,12 @@ process_image(){
     # latest标签 / 目标不存在：执行copy
     local copy_ok=0
     for ((i=1; i<=RETRIES; i++));do
-        if crane copy "${src_img}" "${dest_img}";then
+        if crane copy "${src_img}" "${dest_img}" --format=docker;then
             copy_ok=1
             break
         else
             echo -e "${YELLOW}WARN: 拷贝失败，第 ${i}/${RETRIES} 次重试${NC}"
-            sleep 1
+            sleep "${SLEEP_RETRY}"
         fi
     done
 
