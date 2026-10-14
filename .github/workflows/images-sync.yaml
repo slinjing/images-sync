@@ -44,7 +44,7 @@ jobs:
 
       - name: Deep clean runner disk
         run: |
-          sudo apt‑get clean
+          sudo apt-get clean
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           docker system prune -af
           docker builder prune -af
