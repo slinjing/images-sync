@@ -3,11 +3,10 @@
 snipe/snipe-it:latest
 
 ### 博客 & 知识库
-registry.fit2cloud.com/halo/halo-pro:2.26
+registry.fit2cloud.com/halo/halo:2.26
 ghcr.io/toeverything/affine:stable
 ghcr.io/toeverything/affine:beta
 ghcr.io/toeverything/affine:canary
-b3log/siyuan:3.1.21
 
 ### 项目管理 & 协作
 easysoft/zentao:latest
@@ -18,9 +17,7 @@ easysoft/zentao:21.7.5
 ollama/ollama:0.1.42
 zylonai/private-gpt:0.6.2-ollama
 zylonai/private-gpt:0.6.2-llamacpp-cpu
-openwebui/openwebui:0.5.20
 ghcr.io/open-webui/open-webui:main
-comfyanonymous/comfyui:latest
 
 ### 低代码自动化
 portainer/portainer-ce:2.21.0
@@ -31,14 +28,13 @@ lunare/n8n-chinese:2.11.3
 docker.n8n.io/n8nio/n8n:1.79.2
 
 ### 文档/PDF 工具
-docker.stirlingpdf.com/stirlingtools/stirling-pdf:0.41.1
+docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
 aliuq/readest:latest
 
 ### 文件 & 网盘服务
 zhaojun1998/zfile:4.3.0
 cloudreve/cloudreve:3.8.1
 onlyoffice/documentserver:8.3
-webtago/webtago:latest
 
 ### 媒体影音服务
 linuxserver/jackett:0.24.645
@@ -46,7 +42,6 @@ linuxserver/bazarr:1.4.5
 fallenbagel/jellyseerr:2.5.0
 fallenbagel/jellyseerr:develop
 linuxserver/heimdall:2.2.2
-flaresolverr/flaresolverr:3.3.21
 luckypuppy514/jproxy:latest
 linuxserver/prowlarr:develop
 linuxserver/prowlarr:1.32.2
@@ -57,9 +52,7 @@ lscr.io/linuxserver/sonarr:4.0.10
 linuxserver/radarr:5.14.0
 lscr.io/linuxserver/radarr:5.14.0
 linuxserver/qbittorrent:5.0.2
-binhex/arch-qbittorrentvpn:5.0.2
 allanpk716/chinesesubfinder:latest-lite
-emby/embyserver:4.9.0
 jellyfin/jellyfin:10.10.6
 jellyfin/jellyfin:latest
 lscr.io/linuxserver/bazarr:1.4.5
@@ -112,7 +105,6 @@ mariadb:10.6.7
 
 ### MongoDB
 mongodb/mongodb-community-server:7.0-ubuntu2204
-mongodb/mongodb:7.0
 
 ### Redis / Valkey
 redis:latest
@@ -133,7 +125,6 @@ apache/doris:be-4.0.1
 apache/doris:fe-4.0.1
 
 ### 对象存储
-minio/minio:RELEASE.2025-09-17T00-23-53Z
 quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
 
 ### 数据库 Web 管理工具
@@ -190,7 +181,6 @@ jenkins/jenkins:lts-jdk17
 sonarqube:10.7-community
 
 ### 密钥&服务发现
-vault:1.18
 hashicorp/consul:1.19
 
 ### Docker 引擎
@@ -212,7 +202,6 @@ rockylinux/rockylinux:9
 rockylinux/rockylinux:8
 
 ### Alpine 工具镜像
-alpine/openssl:3.3
 alpine/git:2.49.1
 alpine/git:latest
 
@@ -225,7 +214,6 @@ node:22-bullseye
 node:20-alpine
 node:16
 node:16-alpine
-openjdk:17-jre-slim
 openjdk:8u342-jre-slim
 openjdk:8u121-alpine
 golang:1.23-alpine
@@ -239,7 +227,21 @@ wazuh/wazuh-indexer:4.14.7
 wazuh/wazuh-dashboard:4.14.7
 
 ### 漏洞扫描
-aquasec/trivy:0.58
+# registry.community.greenbone.net/community/vulnerability-tests
+# registry.community.greenbone.net/community/notus-data
+# registry.community.greenbone.net/community/scap-data
+# registry.community.greenbone.net/community/cert-bund-data
+# registry.community.greenbone.net/community/dfn-cert-data
+# registry.community.greenbone.net/community/data-objects
+# registry.community.greenbone.net/community/report-formats
+# registry.community.greenbone.net/community/gpg-data
+# registry.community.greenbone.net/community/redis-server
+# registry.community.greenbone.net/community/pg-gvm:stable
+# registry.community.greenbone.net/community/gvmd:stable
+# registry.community.greenbone.net/community/gsa:stable
+# registry.community.greenbone.net/community/openvas-scanner:stable
+# registry.community.greenbone.net/community/ospd-openvas:stable
+# registry.community.greenbone.net/community/gvm-tools
 
 ### 告警安全
 jertel/elastalert2:2.25.0
@@ -260,11 +262,8 @@ docker.elastic.co/elasticsearch/elasticsearch:8.9.0
 docker.elastic.co/kibana/kibana:8.9.0
 docker.elastic.co/logstash/logstash:8.9.0
 
-### 链路追踪
-jaegertracing/jaeger:1.64.0
-
 ### 系统监控采集
-google/cadvisor:v0.49.1
+google/cadvisor:latest
 
 ### DDNS 动态域名
 lscr.io/linuxserver/duckdns:latest
@@ -286,11 +285,9 @@ registry.k8s.io/metrics-server/metrics-server:v0.7.2
 registry.k8s.io/autoscaling/cluster-autoscaler:v1.32.0
 registry.k8s.io/descheduler/descheduler:v0.32.0
 registry.k8s.io/external-dns/external-dns:v0.15.0
-registry.k8s.io/snapshot-controller/snapshot-controller:v8.2.0
 
 ### Ingress‑Nginx
 registry.k8s.io/ingress-nginx/controller:v1.11.2
-registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.11.2
 
 ### CNI 网络插件
 #### Calico v3.30.3 
@@ -302,7 +299,6 @@ quay.io/calico/pod2daemon-flexvol:v3.30.3
 
 #### Flannel v0.27.3
 flannel/flannel:v0.27.3
-flannel/flannel-cni:v0.27.3
 
 ### 负载均衡 MetalLB 
 quay.io/metallb/controller:v0.14.9
@@ -330,8 +326,6 @@ prom/pushgateway:v1.11.4
 registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.20.0
 quay.io/prometheus/memcached-exporter:v0.14.4
 quay.io/prometheus/mysqld-exporter:v0.15.1
-quay.io/prometheus/postgres-exporter:v0.15.0
-bitnami/redis-exporter:v1.61.0
 
 ### Prometheus‑Operator v0.94.1
 quay.io/prometheus-operator/prometheus-operator:v0.94.1
