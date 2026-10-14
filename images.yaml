@@ -102,6 +102,7 @@ mariadb:11.4.7
 mariadb:11
 mariadb:10.11.11
 mariadb:10.6.7
+mariadb:10.6
 
 ### MongoDB
 mongodb/mongodb-community-server:7.0-ubuntu2204
