@@ -9,7 +9,7 @@ on:
     paths: [ 'images.yaml' ]
   workflow_dispatch:
   schedule:
-    - cron: '30 16 * * *'
+    - cron: '30 8 * * *'
 
 jobs:
   sync-images:
@@ -18,8 +18,9 @@ jobs:
     permissions:
       contents: read
     env:
-      CONCURRENCY: 4
+      CONCURRENCY: 2
       RETRIES: 3
+      SLEEP_RETRY: 2
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -27,8 +28,8 @@ jobs:
       - name: Install crane
         run: |
           set -e
-          VERSION=$(curl -s https://api.github.com/repos/google/go-containerregistry/releases/latest | jq -r .tag_name)
-          echo "Latest crane version: $VERSION"
+          VERSION="v0.20.0"
+          echo "Use crane version: $VERSION"
           curl -sL "https://github.com/google/go-containerregistry/releases/download/${VERSION}/go-containerregistry_Linux_x86_64.tar.gz" -o crane.tar.gz
           tar -zxvf crane.tar.gz crane
           chmod +x crane
