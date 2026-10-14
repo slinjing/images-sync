@@ -25,7 +25,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install crane
-        uses: imjasonh/setup-crane@v1
+        run: |
+          set -e
+          VERSION=$(curl -s https://api.github.com/repos/google/go-containerregistry/releases/latest | jq -r .tag_name)
+          echo "Latest crane version: $VERSION"
+          curl -sL "https://github.com/google/go-containerregistry/releases/download/${VERSION}/go-containerregistry_Linux_x86_64.tar.gz" -o crane.tar.gz
+          tar -zxvf crane.tar.gz crane
+          chmod +x crane
+          sudo mv crane /usr/local/bin/
+          crane version
 
       - name: Prepare registry auth file for crane
         run: |
