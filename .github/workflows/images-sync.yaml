@@ -13,7 +13,7 @@ on:
     paths: [ 'images.yaml' ] # 仅镜像清单文件变更触发
   workflow_dispatch: # 支持手动点击运行
   schedule:
-    - cron: '30 8 * * *' # UTC时间，每日8:30定时执行
+    - cron: '0 16 * * *' # UTC 16:00 = 北京时间 次日 00:00（晚上24点）
 
 jobs:
   sync-images:
