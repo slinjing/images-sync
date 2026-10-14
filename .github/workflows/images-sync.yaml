@@ -69,5 +69,6 @@ jobs:
           name: sync-logs
           path: |
             succeeded.log
+            skipped.log
             failed.log
           retention-days: 7
