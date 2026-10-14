@@ -165,9 +165,9 @@ echo -e "${GREEN}✅ 成功镜像数量：${success_count}${NC}"
 echo -e "${SKY}⏭️ 跳过镜像数量：${skip_count}${NC}"
 echo -e "${RED}❌ 失败镜像数量：${fail_count}${NC}"
 
-if [[ ${skip_count} -gt 0 ]];then
-    echo -e "\n${SKY}------ 跳过镜像清单 -----${NC}"
-    cat skipped.log
+if [[ ${success_count} -gt 0 ]];then
+    echo -e "\n${SKY}------ 成功镜像清单 -----${NC}"
+    cat succeeded.log
 fi
 if [[ ${fail_count} -gt 0 ]];then
     echo -e "\n${RED}------ 失败镜像清单 -----${NC}"
