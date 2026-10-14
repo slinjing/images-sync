@@ -24,13 +24,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install crane (OCI image copy tool)
-        run: |
-          set -e
-          curl -sL https://github.com/google/go-containerregistry/releases/latest/download/crane-linux-amd64 > crane
-          chmod +x crane
-          sudo mv crane /usr/local/bin/crane
-          crane version
+      - name: Install crane
+        uses: imjasonh/setup-crane@v1
 
       - name: Prepare registry auth file for crane
         run: |
