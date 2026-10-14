@@ -10,9 +10,6 @@ wazuh/wazuh-manager:4.14.7
 wazuh/wazuh-indexer:4.14.7
 wazuh/wazuh-dashboard:4.14.7
 
-## Glee 安全
-ghcr.dockerproxy.com/gleesecurity/glee:latest
-
 ## Affine 知识库
 ghcr.io/toeverything/affine:stable
 ghcr.io/toeverything/affine:beta
@@ -173,7 +170,7 @@ ghcr.io/immich-app/immich-machine-learning:release
 ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
 
 ## Minio 对象存储
-minio/minio:latest
+quay.io/minio/minio:latest
 quay.io/minio/minio:RELEASE.2025-06-13T11-33-47Z
 
 ## Valkey 缓存
@@ -236,7 +233,6 @@ mariadb:10.11.11
 mariadb:10.6.7
 
 ## MongoDB 文档库
-mongodb/mongodb:latest
 mongodb/mongodb-community-server:7.0-ubuntu2204
 
 ## RabbitMQ 消息队列
