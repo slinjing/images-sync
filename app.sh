@@ -1,3 +1,4 @@
+```bash
 #!/bin/bash
 set -uo pipefail
 
@@ -39,7 +40,7 @@ process_image() {
     local tmp_fail
     tmp_fail=$(mktemp)
 
-    echo -e "\n===== 处理镜像: ${src_img} ====="
+    echo -e "\n===== [TASK:${src_img}] 开始处理 ====="
     echo "【当前磁盘】$(df -h / | awk 'NR==2 {print $5}')"
 
     # Docker原生逻辑：无tag自动补 :latest
@@ -62,20 +63,29 @@ process_image() {
 
     short_img="${img_name##*/}"
     dest_img="${REGISTRY}/${NAMESPACE}/${short_img}:${img_tag}"
-    echo "目标镜像: ${dest_img}"
+    echo "[${src_img}] 目标镜像: ${dest_img}"
 
-    # 业务规则: latest标签强制同步；其他tag，目标仓库存在则直接跳过
+    local need_sync=1
+    # 业务规则: latest标签强制同步；其他tag先查询目标仓库
     if [[ "${img_tag}" != "latest" ]];then
-        # crane检查目标镜像是否存在，屏蔽错误输出
-        if crane manifest "${dest_img}" >/dev/null 2>/dev/null;then
+        # 查询目标镜像是否存在，捕获crane退出码
+        crane manifest "${dest_img}" >/dev/null 2>/dev/null
+        local crane_ret=$?
+        if [[ ${crane_ret} -eq 0 ]];then
+            # 返回码0：镜像真实存在，直接跳过，不走pull流程
             echo "SKIP|${src_img}" >> "${tmp_skip}"
-            echo -e "${SKY}SKIP: 镜像已存在，跳过 ${src_img}${NC}"
+            echo -e "${SKY}[${src_img}] SKIP: 镜像已存在，跳过，不执行pull${NC}"
             cat "${tmp_skip}" >> skipped.log
             rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
             return 0
+        else
+            # crane返回非0：两种可能：1.镜像不存在；2.crane网络/鉴权异常，都需要执行同步
+            echo -e "${YELLOW}[${src_img}] INFO: 目标镜像不存在或crane查询异常，将执行同步${NC}"
+            need_sync=1
         fi
     fi
 
+    # ------------------- 只有 need_sync=1 才会走到pull流程 -------------------
     # Pull镜像，带重试
     local pull_ok=0
     for ((i=1; i<=RETRIES; i++)); do
@@ -83,13 +93,13 @@ process_image() {
             pull_ok=1
             break
         else
-            echo -e "${YELLOW}WARN: 拉取失败，第 $i/${RETRIES} 次重试${NC}"
+            echo -e "${YELLOW}[${src_img}] WARN: 拉取失败，第 $i/${RETRIES} 次重试${NC}"
             sleep "${SLEEP_RETRY}"
         fi
     done
     if [[ ${pull_ok} -ne 1 ]];then
         echo "PULL_FAIL|${src_img}|docker pull拉取镜像失败" >> "${tmp_fail}"
-        echo -e "${RED}ERROR: 镜像拉取失败 ${src_img}${NC}"
+        echo -e "${RED}[${src_img}] ERROR: 镜像拉取失败 ${src_img}${NC}"
         cat "${tmp_fail}" >> failed.log
         docker rmi "${src_img}" 2>/dev/null || true
         rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
@@ -99,7 +109,7 @@ process_image() {
     # 打目标仓库标签
     if ! docker tag "${src_img}" "${dest_img}";then
         echo "TAG_FAIL|${src_img}|docker tag打标签失败" >> "${tmp_fail}"
-        echo -e "${RED}ERROR: 打标签失败 ${src_img} -> ${dest_img}${NC}"
+        echo -e "${RED}[${src_img}] ERROR: 打标签失败 ${src_img} -> ${dest_img}${NC}"
         cat "${tmp_fail}" >> failed.log
         docker rmi "${src_img}" "${dest_img}" 2>/dev/null || true
         rm -f "${tmp_success}" "${tmp_skip}" "${tmp_fail}"
@@ -113,18 +123,18 @@ process_image() {
             push_ok=1
             break
         else
-            echo -e "${YELLOW}WARN: 推送失败，第 $i/${RETRIES} 次重试${NC}"
+            echo -e "${YELLOW}[${src_img}] WARN: 推送失败，第 $i/${RETRIES} 次重试${NC}"
             sleep "${SLEEP_RETRY}"
         fi
     done
 
     if [[ ${push_ok} -eq 1 ]];then
         echo "SUCCESS|${src_img}" >> "${tmp_success}"
-        echo -e "${GREEN}SUCCESS: 镜像同步完成 ${src_img}${NC}"
+        echo -e "${GREEN}[${src_img}] SUCCESS: 镜像同步完成 ${src_img}${NC}"
         cat "${tmp_success}" >> succeeded.log
     else
         echo "PUSH_FAIL|${src_img}|docker push推送镜像失败" >> "${tmp_fail}"
-        echo -e "${RED}ERROR: 镜像推送失败 ${dest_img}${NC}"
+        echo -e "${RED}[${src_img}] ERROR: 镜像推送失败 ${dest_img}${NC}"
         cat "${tmp_fail}" >> failed.log
     fi
 
