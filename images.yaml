@@ -309,7 +309,11 @@ quay.io/metallb/speaker:v0.14.9
 kubernetesui/dashboard:v2.7.0
 kubernetesui/metrics-scraper:v1.0.8
 
-## 十、Prometheus 监控套件
+## Prometheus 监控套件
+### 主机实时监控
+netdata/netdata:latest
+netdata/netdata:stable
+
 ### Prometheus
 prom/prometheus:v3.15.0
 prom/alertmanager:v0.29.0
