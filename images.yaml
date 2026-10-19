@@ -80,6 +80,9 @@ mirhub/mirror-hub:latest
 ## 数据库 & 缓存 & 时序存储
 ### MySQL
 mysql:latest
+mysql:9.7.2
+mysql:8.4.11
+mysql:8.4.10
 mysql:8.4
 mysql:8.0.39
 mysql:8.0
@@ -97,6 +100,8 @@ postgres:15
 
 ### MariaDB
 mariadb:latest
+mariadb:11.8.9
+mariadb:11.4.13
 mariadb:11.4
 mariadb:11.4.7
 mariadb:11
@@ -121,6 +126,8 @@ docker.io/valkey/valkey:8.0
 memcached:1.6-alpine
 
 ### 时序数据库
+influxdb:2.9.1
+influxdb:2.9.0
 influxdb:2.7
 apache/doris:be-4.0.1
 apache/doris:fe-4.0.1
