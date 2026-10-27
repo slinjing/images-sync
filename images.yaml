@@ -1,6 +1,7 @@
 ## 业务应用系统
 ### 资产管理
 snipe/snipe-it:latest
+glpi/glpi:latest
 
 ### 博客 & 知识库
 registry.fit2cloud.com/halo/halo:2.26
