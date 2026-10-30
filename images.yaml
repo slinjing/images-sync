@@ -34,6 +34,7 @@ aliuq/readest:latest
 
 ### 文件 & 网盘服务
 zhaojun1998/zfile:4.3.0
+cloudreve/cloudreve:v4
 cloudreve/cloudreve:3.8.1
 onlyoffice/documentserver:8.3
 
